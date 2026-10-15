@@ -1,0 +1,17 @@
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "frame-ancestors 'self' https://the-gallery-home.vercel.app https://*.vercel.app"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "ALLOW-FROM https://the-gallery-home.vercel.app"
+        }
+      ]
+    }
+  ]
+}
