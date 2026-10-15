@@ -92,6 +92,8 @@
 .index-header h1 { font-size: 52px; margin: 24px 0 18px; }
 .index-description { color: var(--text-muted); font-size: 15px; }
 .index-byline { display: flex; justify-content: space-between; color: var(--text-dim); margin-top: 40px; padding-bottom: 30px; border-bottom: 1px solid var(--hairline); }
+.gallery-back { color: var(--text-dim); transition: color .2s; }
+.gallery-back:hover { color: var(--foreground); }
 .filter-bar { display: flex; justify-content: space-between; align-items: center; padding: 22px 0; border-bottom: 1px solid var(--hairline); }
 .filters { display: flex; gap: 27px; }
 .filter-button { font-size: 11px; position: relative; }

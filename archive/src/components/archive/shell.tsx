@@ -33,7 +33,7 @@ export function ArchiveShell({ children }: { children: ReactNode }) {
     <div className={`archive-site ${mode === 'dark' ? 'dark' : 'light'}`}>
       <a className="skip-link" href="#main">Skip to content</a>
       <header className="topbar">
-        <Button variant="archive" className="gallery-link" disabled title="Gallery link awaits its URL">← Gallery</Button>
+        <a href="https://the-gallery-home.vercel.app" className="gallery-link mono">← Gallery</a>
         <nav className="desktop-nav" aria-label="Primary navigation"><ArchiveNav /></nav>
         <Button variant="archive" className="menu-toggle" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={() => setMenuOpen(!menuOpen)}><span className={`hamburger ${menuOpen ? 'is-open' : ''}`}><span /><span /></span></Button>
         <Button variant="archive" className="mode-toggle" onClick={toggle} aria-label={`Switch to ${mode === 'dark' ? 'reading (light)' : 'browsing (dark)'} mode`} title={`Switch to ${mode === 'dark' ? 'reading' : 'browsing'} mode`}><span className={`mode-glyph ${mode}`} aria-hidden="true"><span className="sun">☼</span><span className="moon">☾</span></span></Button>
