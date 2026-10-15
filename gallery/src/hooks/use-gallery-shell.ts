@@ -56,10 +56,10 @@ export function useGalleryShell() {
     
     // Set shell palette based on room
     const palettes: Record<string, { bg: string; text: string; meta: string; hairline: string; accent: string }> = {
-      atlas: { bg: "#0A0A0A", text: "#F5F2ED", meta: "#8A8A8F", hairline: "rgba(245,242,237,0.10)", accent: "#8B0D1A" },
+      atlas: { bg: "#3D2B1F", text: "#F5E6D3", meta: "#C4B5A0", hairline: "rgba(244,181,160,0.10)", accent: "#8B4513" },
       obsidian: { bg: "#0A1220", text: "#F4F1EA", meta: "#7A8CA6", hairline: "rgba(122,140,166,0.15)", accent: "#A38560" },
-      substrate: { bg: "#0A1514", text: "#E6F0F5", meta: "#8FA8B8", hairline: "rgba(143,168,184,0.15)", accent: "#D29F22" },
-      archive: { bg: "#100A0C", text: "#F4F1EA", meta: "#8A8A8F", hairline: "rgba(244,241,234,0.08)", accent: "#8B0D1A" },
+      substrate: { bg: "#0A2F2F", text: "#F5E6D3", meta: "#8FB8C8", hairline: "rgba(143,184,200,0.15)", accent: "#4ECDC4" },
+      archive: { bg: "#1A0A0A", text: "#F4F1EA", meta: "#8A8A8F", hairline: "rgba(138,138,143,0.08)", accent: "#800020" },
     };
     
     const palette = palettes[id];
