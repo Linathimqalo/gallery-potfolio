@@ -72,6 +72,7 @@ function Index() {
           <h3><a className="project-title" href={p.url} target="_blank" rel="noopener noreferrer"><Reveal as="span">{p.title}</Reveal><span className="project-arrow" aria-hidden="true">→</span></a></h3>
           {i < 6 && <Reveal className="project-description">{p.description}</Reveal>}
           <Reveal className="project-tags">{p.tags}</Reveal>
+          {i < 4 && <a className="mono case-study-link" href={p.title === "AWS Storage Platform" ? "https://the-archive-portfolio.vercel.app/projects/aws-storage-platform" : p.title === "AWS VPC Network Security" ? "https://the-archive-portfolio.vercel.app/projects/aws-vpc-network-security" : p.title === "Comparative Cloud Honeypot Analysis" ? "https://the-archive-portfolio.vercel.app/projects/cloud-honeypot-analysis" : p.title === "Zeus Banking Trojan" ? "https://the-archive-portfolio.vercel.app/projects/zeus-malware-analysis" : ""}>READ FULL CASE STUDY →</a>}
         </article>)}
       </section>
       <section id="contact" className="section contact-section">

@@ -50,18 +50,42 @@ export function useGalleryShell() {
   function activateRoom(event: PointerEvent<HTMLAnchorElement>, id: string) {
     if (event.pointerType !== "mouse" || document.documentElement.dataset['shellMode'] !== "hover") return;
     const root = document.documentElement;
+    const bounds = event.currentTarget.getBoundingClientRect();
     // Keep the spatial light's origin at the room rather than at the pointer.
-    if (id === "obsidian") {
-      const bounds = event.currentTarget.getBoundingClientRect();
-      root.style.setProperty("--shell-source-x", `${(bounds.left + bounds.width / 2) / window.innerWidth * 100}%`);
+    root.style.setProperty("--shell-source-x", `${(bounds.left + bounds.width / 2) / window.innerWidth * 100}%`);
+    
+    // Set shell palette based on room
+    const palettes: Record<string, { bg: string; text: string; meta: string; hairline: string; accent: string }> = {
+      atlas: { bg: "#0A0A0A", text: "#F5F2ED", meta: "#8A8A8F", hairline: "rgba(245,242,237,0.10)", accent: "#8B0D1A" },
+      obsidian: { bg: "#0A1220", text: "#F4F1EA", meta: "#7A8CA6", hairline: "rgba(122,140,166,0.15)", accent: "#A38560" },
+      substrate: { bg: "#0A1514", text: "#E6F0F5", meta: "#8FA8B8", hairline: "rgba(143,168,184,0.15)", accent: "#D29F22" },
+      archive: { bg: "#100A0C", text: "#F4F1EA", meta: "#8A8A8F", hairline: "rgba(244,241,234,0.08)", accent: "#8B0D1A" },
+    };
+    
+    const palette = palettes[id];
+    if (palette) {
+      root.style.setProperty("--shell-bg", palette.bg);
+      root.style.setProperty("--shell-text", palette.text);
+      root.style.setProperty("--shell-meta", palette.meta);
+      root.style.setProperty("--shell-hairline", palette.hairline);
+      root.style.setProperty("--shell-accent", palette.accent);
     }
+    
     root.dataset['shellRoom'] = id;
   }
 
   function deactivateRoom() {
     const root = document.documentElement;
     // Clear only when leaving the room group, never while crossing a divider.
-    if (root.dataset['shellMode'] === "hover") delete root.dataset['shellRoom'];
+    if (root.dataset['shellMode'] === "hover") {
+      delete root.dataset['shellRoom'];
+      // Reset to default neutral dark
+      root.style.removeProperty("--shell-bg");
+      root.style.removeProperty("--shell-text");
+      root.style.removeProperty("--shell-meta");
+      root.style.removeProperty("--shell-hairline");
+      root.style.removeProperty("--shell-accent");
+    }
   }
 
   return { roomList, activateRoom, deactivateRoom };

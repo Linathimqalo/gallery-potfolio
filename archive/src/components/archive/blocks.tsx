@@ -15,6 +15,8 @@ export function Block({ block }: { block: ContentBlock }) {
     case 'paragraph': content = <p>{block.text}</p>; break;
     case 'heading': content = <h3>{block.text}</h3>; break;
     case 'list': content = <ul>{block.items.map(item => <li key={item}>{item}</li>)}</ul>; break;
+    case 'numberedList': content = <ol>{block.items.map(item => <li key={item}>{item}</li>)}</ol>; break;
+    case 'table': content = <figure className="table-block"><table><thead><tr>{block.headers.map((header, i) => <th key={i}>{header}</th>)}</tr></thead><tbody>{block.rows.map((row, rowIndex) => <tr key={rowIndex}>{row.map((cell, cellIndex) => <td key={cellIndex}>{cell}</td>)}</tr>)}</tbody></table></figure>; break;
     case 'quote': content = <blockquote><span className="mono block-label">Excerpt</span><p>{block.text}</p></blockquote>; break;
     case 'code': content = <CodeBlock code={block.code} language={block.language} />; break;
     case 'diagram': content = <figure className="diagram"><figcaption className="mono block-label">Architecture / schematic</figcaption><pre tabIndex={0}>{block.code}</pre></figure>; break;
