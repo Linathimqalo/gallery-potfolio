@@ -1,0 +1,4 @@
+- ATLAS is one six-section journal at `/`; keep desktop navigation within its horizontal track and mobile navigation within the document to preserve the bound-volume reading model.
+- Store source portfolio wording in the browser-safe portfolio data module, separate from presentation, to keep the supplied content unchanged.
+- Define journal appearance in the global design system and use journal Button variants for navigation; this preserves theme consistency.
+- Load remote font stylesheets through the root head, not CSS URL imports, because the CSS compiler resolves imports locally.
