@@ -121,7 +121,7 @@ function Atlas() {
 
   return <>
     <aside className="spine" aria-label="Reading position"><span className="mono spine-label">ATLAS · VOL. 01</span><div className="spine-rule" /><span className="mono page-counter">{pageCounter(active)}</span></aside>
-    <div className="fixed-tools"><Button variant="journal" onClick={() => goToPage(4)}>← GALLERY</Button><Button variant="journal" className="theme-control" onClick={toggleTheme} aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'} title={dark ? 'Light theme' : 'Dark theme'}><span className="theme-glyph" aria-hidden="true" /></Button></div>
+    <div className="fixed-tools"><Button variant="journal" asChild><a href="https://the-gallery-home.vercel.app">← GALLERY</a></Button><Button variant="journal" className="theme-control" onClick={toggleTheme} aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'} title={dark ? 'Light theme' : 'Dark theme'}><span className="theme-glyph" aria-hidden="true" /></Button></div>
     <nav className="page-navigation" aria-label="Journal pages">{pages.map((page, index) => <Button key={page} variant="dot" onClick={() => goToPage(index)} aria-label={`Go to ${page}`} aria-current={active === index ? 'page' : undefined}><span className="dot-name mono">{page}</span><span className="nav-dot" /></Button>)}</nav>
     <div ref={cursor} className="reading-cursor" aria-hidden="true" />
     <main ref={track} className="atlas-track" aria-label="ATLAS portfolio">

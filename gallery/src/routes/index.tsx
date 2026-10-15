@@ -23,10 +23,10 @@ export const Route = createFileRoute("/")({
 // Destinations belong to the portfolios, not this standalone chooser.
 // Supply preview URLs and screenshot assets here when the portfolios are ready.
 const rooms = [
-  { id: "atlas", number: "01", name: "ATLAS", subtitle: "The Editorial Edition", description: "Set in Fraunces & Inter.\nPrinted on paper.", href: "https://atlas-journal-showcase.lovable.app", previewUrl: "", fallbackImage: "/images/atlas-preview.jpg", medium: "PAPER & INK", urlExternal: true },
-  { id: "obsidian", number: "02", name: "OBSIDIAN", subtitle: "The Spatial Edition", description: "Set in Instrument Serif & Inter.\nRendered in real time.", href: "https://atlas-obsidian-duo.lovable.app", previewUrl: "", fallbackImage: "/images/obsidian-preview.jpg", medium: "LIGHT & SPACE", urlExternal: true },
-  { id: "substrate", number: "03", name: "SUBSTRATE", subtitle: "The Organic Edition", description: "Grown in real time.", href: "https://linathis-showcase.lovable.app", previewUrl: "", fallbackImage: "/images/substrate-preview.jpg", medium: "FORM & LIFE", urlExternal: true },
-  { id: "archive", number: "04", name: "THE ARCHIVE", subtitle: "The Source Material", description: "The work itself, in full. Case studies, technical write-ups, and the reasoning behind every decision.", href: "https://linathi-archive-showcase.lovable.app", previewUrl: "", fallbackImage: "/images/archive-preview.jpg", medium: "WORK & REASONING", urlExternal: true },
+  { id: "atlas", number: "01", name: "ATLAS", subtitle: "The Editorial Edition", description: "Set in Fraunces & Inter.\nPrinted on paper.", href: "https://the-atlas-portfolio.vercel.app", previewUrl: "", fallbackImage: "/images/atlas-preview.jpg", medium: "PAPER & INK", urlExternal: true },
+  { id: "obsidian", number: "02", name: "OBSIDIAN", subtitle: "The Spatial Edition", description: "Set in Instrument Serif & Inter.\nRendered in real time.", href: "https://the-obsidian-portfolio.vercel.app", previewUrl: "", fallbackImage: "/images/obsidian-preview.jpg", medium: "LIGHT & SPACE", urlExternal: true },
+  { id: "substrate", number: "03", name: "SUBSTRATE", subtitle: "The Organic Edition", description: "Grown in real time.", href: "https://the-substrate-portfolio.vercel.app", previewUrl: "", fallbackImage: "/images/substrate-preview.jpg", medium: "FORM & LIFE", urlExternal: true },
+  { id: "archive", number: "04", name: "THE ARCHIVE", subtitle: "The Source Material", description: "The work itself, in full. Case studies, technical write-ups, and the reasoning behind every decision.", href: "https://the-archive-portfolio.vercel.app", previewUrl: "", fallbackImage: "/images/archive-preview.jpg", medium: "WORK & REASONING", urlExternal: true },
 ];
 
 function Gallery() {

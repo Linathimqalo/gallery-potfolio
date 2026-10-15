@@ -27,7 +27,7 @@ function Index() {
     <main className="portfolio">
       <a className="site-name" href="#hero" aria-label="SUBSTRATE home">SUBSTRATE</a>
       <nav className="minimal-nav" aria-label="Portfolio navigation">
-        <a href="#projects" title="Selected work">← GALLERY</a>
+        <a href="https://the-gallery-home.vercel.app" title="Back to gallery">← GALLERY</a>
         <Button variant="field" size="icon" className="theme-control" onClick={() => setDark(!dark)} aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'} title={dark ? 'Light theme' : 'Dark theme'}>{dark ? '☼' : '☾'}</Button>
       </nav>
       <section id="hero" className="hero" aria-label="Linathi Mqalo portfolio">
