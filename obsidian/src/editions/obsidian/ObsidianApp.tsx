@@ -12,12 +12,15 @@ type Project = PortfolioContent["projects"]["featured"][number] | PortfolioConte
 function ProjectTile({ project, content, featured=false, index=0 }: { project:Project; content:PortfolioContent; featured?:boolean;index?:number }) {
   const reduced=useReducedMotion();
   function react(e:PointerEvent<HTMLDivElement>){if(reduced)return;const rect=e.currentTarget.getBoundingClientRect();e.currentTarget.style.setProperty("--pointer-x",`${e.clientX-rect.left}px`);e.currentTarget.style.setProperty("--pointer-y",`${e.clientY-rect.top}px`);}
+  const hasCaseStudy = "caseStudy" in project && project.caseStudy;
+  const projectHref = hasCaseStudy ? project.caseStudy : project.href;
   return <SpatialPanel className={featured?"obs-featured":"obs-project"} depth={.15+index*.05} index={index}>
     <article className="obs-glass obs-project-tile" onPointerMove={react}>
       <div className="obs-project-text text-zone"><div className="obs-project-meta obs-mono">{featured && <span className="obs-featured-badge">{content.projects.featuredLabel}</span>}<span>{"category" in project?project.category:""}{"year" in project?` · ${project.year}`:""}</span></div>
-      <h3>{project.href?<a className="obs-underline" href={project.href} target="_blank" rel="noreferrer">{project.title}</a>:project.title}</h3><p>{project.description}</p><p className="obs-tags obs-mono">{project.tags.join(", ")}</p>
-      {project.href && <a className="obs-view obs-mono obs-underline" href={project.href} target="_blank" rel="noreferrer" aria-label={`${content.projects.viewLabel} ${project.title}`}>{content.projects.viewLabel} <span aria-hidden="true">→</span></a>}
-      {"caseStudy" in project && <a className="obs-view obs-mono obs-underline" href={project.caseStudy} target="_blank" rel="noreferrer" aria-label={`Read case study for ${project.title}`}>READ CASE STUDY <span aria-hidden="true">→</span></a>}</div>
+      <h3>{projectHref ? <a className="obs-underline" href={projectHref} target="_blank" rel="noreferrer">{project.title}</a> : <span style={{ opacity: 0.5 }}>{project.title}</span>}</h3><p>{project.description}</p><p className="obs-tags obs-mono">{project.tags.join(", ")}</p>
+      {projectHref && <a className="obs-view obs-mono obs-underline" href={projectHref} target="_blank" rel="noreferrer" aria-label={`${content.projects.viewLabel} ${project.title}`}>{content.projects.viewLabel} <span aria-hidden="true">→</span></a>}
+      {!hasCaseStudy && <span className="obs-view obs-mono" style={{ opacity: 0.5 }}>COMING SOON</span>}
+      </div>
     </article>
   </SpatialPanel>;
 }
@@ -28,15 +31,15 @@ export function ObsidianApp({content}:{content:PortfolioContent}) {
   const reduced=useReducedMotion();
   const navItems=[{id:"hero",number:"00",label:content.person.name},...content.sections];
   useEffect(()=>{
-    try{const saved=localStorage.getItem("linathi:obsidian-theme");if(saved==="light"||saved==="dark")setMode(saved);}catch{/* Optional storage. */}
+    try{const saved=localStorage.getItem("linathi:obsidian-theme");if(saved==="light"||saved==="dark"){setMode(saved);document.documentElement.classList.toggle("light",saved==="light");}}catch{/* Optional storage. */}
     const previous=document.documentElement.style.scrollSnapType;document.documentElement.style.scrollSnapType="y proximity";
     let scheduled=0;
     const update=()=>{scheduled=0;let current="hero";for(const item of navItems){const el=root.current?.querySelector<HTMLElement>(`#${item.id}`);if(el && el.getBoundingClientRect().top<=window.innerHeight*.42)current=item.id;}setActive(current);};
     const scroll=()=>{if(!scheduled)scheduled=requestAnimationFrame(update);};update();window.addEventListener("scroll",scroll,{passive:true});
-    return()=>{window.removeEventListener("scroll",scroll);cancelAnimationFrame(scheduled);document.documentElement.style.scrollSnapType=previous;};
+    return()=>{window.removeEventListener("scroll",scroll);cancelAnimationFrame(scheduled);document.documentElement.style.scrollSnapType=previous;document.documentElement.classList.remove("light");};
   },[content]);
   useEffect(()=>{const el=dialog.current;if(!el)return undefined;if(menu){el.showModal();return()=>el.close();}el.close();return undefined;},[menu]);
-  function toggle(){const next=mode==="dark"?"light":"dark";setMode(next);try{localStorage.setItem("linathi:obsidian-theme",next);}catch{/* Optional storage. */}}
+  function toggle(){const next=mode==="dark"?"light":"dark";setMode(next);document.documentElement.classList.toggle("light",next==="light");try{localStorage.setItem("linathi:obsidian-theme",next);}catch{/* Optional storage. */}}
   function navigate(id:string){setMenu(false);setActive(id);requestAnimationFrame(()=>{const el=root.current?.querySelector<HTMLElement>(`#${id}`);el?.scrollIntoView({behavior:reduced?"instant":"smooth",block:"start"});history.replaceState(history.state,"",`${location.pathname}${location.search}#${id}`);});}
   const label=(index:number)=>{const section=content.sections[index];return section?<h2 className="obs-section-label obs-mono text-zone"><span>{section.number}</span> — {section.label}</h2>:null;};
   return <div ref={root} className="obsidian" data-mode={mode} data-contact={active==="contact"}>

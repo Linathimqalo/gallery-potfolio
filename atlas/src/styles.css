@@ -148,6 +148,11 @@ h1,h2,h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.08
   .page-counter { position: absolute; top: calc(100% + 23px); left: 0; white-space: nowrap; }
   .page-navigation { bottom: 28px; left: 50%; right: auto; transform: translateX(-50%); flex-direction: row; gap: 8px; }
   .dot-name { right: auto; left: 50%; bottom: 38px; transform: translateX(-50%); }
+  .nav-arrow { position: fixed; z-index: 30; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; font-size: 24px; padding: 0; opacity: 0; transition: opacity 200ms; pointer-events: none; }
+  .nav-arrow:not(:disabled) { opacity: 1; pointer-events: auto; }
+  .nav-arrow-left { left: 24px; }
+  .nav-arrow-right { right: 24px; }
+  .nav-arrow:disabled { opacity: 0.3; pointer-events: none; }
   .reading-cursor { display: block; position: fixed; z-index: 50; width: 12px; height: 12px; top: 0; left: 0; border-left: 1px solid color-mix(in oklab,var(--accent) 60%,transparent); border-top: 1px solid color-mix(in oklab,var(--accent) 60%,transparent); pointer-events: none; opacity: 0; transition: opacity 200ms; }
   .page-header h2 { font-size: 64px; margin-bottom: 30px; }
   .page-header { margin-bottom: 38px; }

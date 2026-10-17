@@ -128,63 +128,72 @@ export const portfolio = {
       "category": "Cloud Engineering",
       "description": "Four-phase AWS engineering project built in a local emulator. Progressive build: CLI fundamentals → Terraform automation → security controls → detection and incident response. Fully Terraform-managed with automated auditing, remote state, and a documented incident-response workflow.",
       "tags": "AWS CLI · Terraform · IAM · S3",
-      "url": "https://github.com/Linathimqalo/aws-storage-platform"
+      "url": "https://github.com/Linathimqalo/aws-storage-platform",
+      "caseStudy": "https://the-archive-portfolio.vercel.app/projects/aws-storage-platform"
     },
     {
       "title": "AWS VPC Network Security",
       "category": "Cloud Engineering",
       "description": "Three-tier VPC design with defence-in-depth network controls, built in Floci and managed with Terraform. Public, private-app, and private-data tiers with routing isolation, security groups, NACLs, and VPC Flow Logs. Includes misconfiguration drill, detection engineering, and dual-path remediation.",
       "tags": "AWS VPC · Terraform · Security Groups · NACLs",
-      "url": "https://github.com/Linathimqalo/aws-storage-platform"
+      "url": "https://github.com/Linathimqalo/aws-storage-platform",
+      "caseStudy": "https://the-archive-portfolio.vercel.app/projects/aws-vpc-network-security"
     },
     {
       "title": "Comparative Cloud Honeypot Analysis",
       "category": "Cybersecurity",
       "description": "Enterprise-grade honeypot system for threat intelligence and attack pattern analysis comparing GCP vs Azure deployments.",
       "tags": "T-POT · Docker · ELK Stack · GCP",
-      "url": "https://github.com/Linathimqalo/cloud-honeypot-analysis"
+      "url": "https://github.com/Linathimqalo/cloud-honeypot-analysis",
+      "caseStudy": "https://the-archive-portfolio.vercel.app/projects/cloud-honeypot-analysis"
     },
     {
       "title": "Zeus Banking Trojan",
       "category": "Security Research",
       "description": "Deep dive malware analysis of Zeus banking trojan using static and dynamic analysis techniques.",
       "tags": "Malware Analysis · IDA Pro · OllyDbg · Wireshark",
-      "url": "https://github.com/Linathimqalo/Malware-Analysis"
+      "url": "https://github.com/Linathimqalo/Malware-Analysis",
+      "caseStudy": "https://the-archive-portfolio.vercel.app/projects/zeus-malware-analysis"
     },
     {
       "title": "Luxury Portfolio Web Application",
       "category": "Full-Stack Development",
       "description": "A premium personal portfolio platform with blog, projects, certifications, and customizable themes powered by Supabase and Next.js.",
       "tags": "Next.js · TypeScript · Supabase",
-      "url": "https://github.com/Linathimqalo"
+      "url": null,
+      "caseStudy": null
     },
     {
       "title": "SIEM/SOC Lab Environment",
       "category": "Infrastructure",
       "description": "Complete Security Operations Center laboratory setup with multiple SIEM platforms and security tools.",
       "tags": "Wazuh · Splunk · Security Onion",
-      "url": "https://github.com/Linathimqalo"
+      "url": null,
+      "caseStudy": null
     },
     {
       "title": "SharePoint Migration Project",
       "category": "Enterprise",
       "description": "Enterprise SharePoint migration improving team collaboration and productivity across multiple departments.",
       "tags": "SharePoint · Office 365 · PowerShell",
-      "url": "https://github.com/Linathimqalo"
+      "url": null,
+      "caseStudy": null
     },
     {
       "title": "Personal Finance Management Platform",
       "category": "Finance",
       "description": "A full-stack finance app for tracking budgets, transactions, goals, debts, and investments with real-time reporting and insights.",
       "tags": "React · TypeScript · Supabase",
-      "url": "https://github.com/Linathimqalo"
+      "url": null,
+      "caseStudy": null
     },
     {
       "title": "Deloitte Cybersecurity Simulation",
       "category": "Professional Development",
       "description": "Cybersecurity job simulation focusing on breach analysis and incident response reporting.",
       "tags": "Incident Response · Forensic Analysis · NIST Framework",
-      "url": "https://github.com/Linathimqalo"
+      "url": null,
+      "caseStudy": null
     }
   ]
 };
