@@ -69,11 +69,10 @@ function Index() {
         <Reveal as="h2">Selected Work</Reveal>
         {portfolio.projects.map((p,i) => <article className={`project ${i < 2 ? 'featured' : i < 6 ? 'secondary' : 'compact'}`} key={p.title}>
           {i < 6 && <Reveal className="meta project-category">{p.category}</Reveal>}
-          <h3>{p.caseStudy || p.url ? <a className="project-title" href={p.caseStudy || p.url || "#"} target="_blank" rel="noopener noreferrer"><Reveal as="span">{p.title}</Reveal><span className="project-arrow" aria-hidden="true">→</span></a> : <Reveal as="span" style={{ opacity: 0.5 }}>{p.title}</Reveal>}</h3>
+          <h3>{p.url ? <a className="project-title" href={p.url} target="_blank" rel="noopener noreferrer"><Reveal as="span">{p.title}</Reveal><span className="project-arrow" aria-hidden="true">→</span></a> : <Reveal as="span">{p.title}</Reveal>}</h3>
           {i < 6 && <Reveal className="project-description">{p.description}</Reveal>}
           <Reveal className="project-tags">{p.tags}</Reveal>
           {i < 4 && p.caseStudy && <a className="mono case-study-link" href={p.caseStudy} target="_blank" rel="noopener noreferrer">READ FULL CASE STUDY →</a>}
-          {i >= 4 && !p.caseStudy && <Reveal className="mono" style={{ opacity: 0.5 }}>COMING SOON</Reveal>}
         </article>)}
       </section>
       <section id="contact" className="section contact-section">

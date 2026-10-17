@@ -18,9 +18,9 @@ export const profile = {
   bio: 'The Archive is the source material behind three interpretations of the same work: Atlas, Obsidian, and Substrate. This is where the actual projects live — their context, implementation, and reasoning.',
 };
 export const portfolios = [
-  { name: 'Atlas', label: 'A spatial interpretation', url: null },
-  { name: 'Obsidian', label: 'A cinematic interpretation', url: null },
-  { name: 'Substrate', label: 'A systems interpretation', url: null },
+  { name: 'Atlas', label: 'A spatial interpretation', url: 'https://the-atlas-portfolio.vercel.app' },
+  { name: 'Obsidian', label: 'A cinematic interpretation', url: 'https://the-obsidian-portfolio.vercel.app' },
+  { name: 'Substrate', label: 'A systems interpretation', url: 'https://the-substrate-portfolio.vercel.app' },
 ];
 export const projects: Project[] = [
   {

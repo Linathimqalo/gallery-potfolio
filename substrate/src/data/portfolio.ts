@@ -160,7 +160,7 @@ export const portfolio = {
       "category": "Full-Stack Development",
       "description": "A premium personal portfolio platform with blog, projects, certifications, and customizable themes powered by Supabase and Next.js.",
       "tags": "Next.js · TypeScript · Supabase",
-      "url": null,
+      "url": "https://github.com/Linathimqalo",
       "caseStudy": null
     },
     {
@@ -168,7 +168,7 @@ export const portfolio = {
       "category": "Infrastructure",
       "description": "Complete Security Operations Center laboratory setup with multiple SIEM platforms and security tools.",
       "tags": "Wazuh · Splunk · Security Onion",
-      "url": null,
+      "url": "https://github.com/Linathimqalo",
       "caseStudy": null
     },
     {
@@ -176,7 +176,7 @@ export const portfolio = {
       "category": "Enterprise",
       "description": "Enterprise SharePoint migration improving team collaboration and productivity across multiple departments.",
       "tags": "SharePoint · Office 365 · PowerShell",
-      "url": null,
+      "url": "https://github.com/Linathimqalo",
       "caseStudy": null
     },
     {
@@ -184,7 +184,7 @@ export const portfolio = {
       "category": "Finance",
       "description": "A full-stack finance app for tracking budgets, transactions, goals, debts, and investments with real-time reporting and insights.",
       "tags": "React · TypeScript · Supabase",
-      "url": null,
+      "url": "https://github.com/Linathimqalo",
       "caseStudy": null
     },
     {
@@ -192,7 +192,7 @@ export const portfolio = {
       "category": "Professional Development",
       "description": "Cybersecurity job simulation focusing on breach analysis and incident response reporting.",
       "tags": "Incident Response · Forensic Analysis · NIST Framework",
-      "url": null,
+      "url": "https://github.com/Linathimqalo",
       "caseStudy": null
     }
   ]
