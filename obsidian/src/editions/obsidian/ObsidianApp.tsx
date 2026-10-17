@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type PointerEvent } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowDown, ArrowUpRight, X } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Moon, Sun, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { PortfolioContent } from "@/content/content";
 import { SectionAnchor } from "@/shared/SectionAnchor";
@@ -26,27 +26,29 @@ function ProjectTile({ project, content, featured=false, index=0 }: { project:Pr
 }
 
 export function ObsidianApp({content}:{content:PortfolioContent}) {
-  const [active,setActive]=useState("hero"),[menu,setMenu]=useState(false);
+  const [mode,setMode]=useState<"dark"|"light">("dark"),[active,setActive]=useState("hero"),[menu,setMenu]=useState(false);
   const root=useRef<HTMLDivElement>(null),dialog=useRef<HTMLDialogElement>(null);
   const reduced=useReducedMotion();
   const navItems=[{id:"hero",number:"00",label:content.person.name},...content.sections];
   useEffect(()=>{
+    try{const saved=localStorage.getItem("linathi:obsidian-theme");if(saved==="light"||saved==="dark"){setMode(saved);document.documentElement.classList.toggle("light",saved==="light");}}catch{/* Optional storage. */}
     const previous=document.documentElement.style.scrollSnapType;document.documentElement.style.scrollSnapType="y proximity";
     let scheduled=0;
     const update=()=>{scheduled=0;let current="hero";for(const item of navItems){const el=root.current?.querySelector<HTMLElement>(`#${item.id}`);if(el && el.getBoundingClientRect().top<=window.innerHeight*.42)current=item.id;}setActive(current);};
     const scroll=()=>{if(!scheduled)scheduled=requestAnimationFrame(update);};update();window.addEventListener("scroll",scroll,{passive:true});
-    return()=>{window.removeEventListener("scroll",scroll);cancelAnimationFrame(scheduled);document.documentElement.style.scrollSnapType=previous;};
+    return()=>{window.removeEventListener("scroll",scroll);cancelAnimationFrame(scheduled);document.documentElement.style.scrollSnapType=previous;document.documentElement.classList.remove("light");};
   },[content]);
   useEffect(()=>{const el=dialog.current;if(!el)return undefined;if(menu){el.showModal();return()=>el.close();}el.close();return undefined;},[menu]);
+  function toggle(){const next=mode==="dark"?"light":"dark";setMode(next);document.documentElement.classList.toggle("light",next==="light");try{localStorage.setItem("linathi:obsidian-theme",next);}catch{/* Optional storage. */}}
   function navigate(id:string){setMenu(false);setActive(id);requestAnimationFrame(()=>{const el=root.current?.querySelector<HTMLElement>(`#${id}`);el?.scrollIntoView({behavior:reduced?"instant":"smooth",block:"start"});history.replaceState(history.state,"",`${location.pathname}${location.search}#${id}`);});}
   const label=(index:number)=>{const section=content.sections[index];return section?<h2 className="obs-section-label obs-mono text-zone"><span>{section.number}</span> — {section.label}</h2>:null;};
-  return <div ref={root} className="obsidian" data-mode="dark" data-contact={active==="contact"}>
-    <FractalSubstrate mode="dark"/><SpatialEffects/>
+  return <div ref={root} className="obsidian" data-mode={mode} data-contact={active==="contact"}>
+    <FractalSubstrate mode={mode}/><SpatialEffects/>
     <a href="#hero" className="obs-skip">{content.controls.skip}</a>
-    <header className="obs-topbar"><a className="obs-wordmark obs-mono text-zone" href="#hero">{content.person.name}</a><div className="obs-tools text-zone"><a className="obs-mono obs-underline" href="https://the-gallery-home.vercel.app">← GALLERY</a></div></header>
+    <header className="obs-topbar"><a className="obs-wordmark obs-mono text-zone" href="#hero">{content.person.name}</a><div className="obs-tools text-zone"><a className="obs-mono obs-underline" href="https://the-gallery-home.vercel.app">← GALLERY</a><Button variant="obsidianIcon" size="icon" aria-label={mode==="dark"?content.controls.light:content.controls.dark} title={mode==="dark"?content.controls.light:content.controls.dark} onClick={toggle}><AnimatePresence initial={false} mode="wait"><motion.span key={mode} initial={{opacity:0,rotate:reduced?0:-3}} animate={{opacity:1,rotate:0}} exit={{opacity:0,rotate:reduced?0:3}} transition={{duration:reduced?0:.2}}>{mode==="dark"?<Sun/>:<Moon/>}</motion.span></AnimatePresence></Button></div></header>
     <nav className="obs-orbit" aria-label="Section navigation">{navItems.map(item=><a key={item.id} className={`obs-orbit-link ${active===item.id?"is-active":""}`} href={`#${item.id}`} aria-label={item.label} aria-current={active===item.id?"location":undefined} onClick={e=>{e.preventDefault();navigate(item.id);}}><span className="obs-orbit-label obs-mono">{item.label}</span><span className="obs-orbit-dot"/></a>)}</nav>
-    <button className="obs-mobile-orbit" aria-label={content.controls.openMenu} aria-expanded={menu} aria-controls="obsidian-menu" onClick={()=>setMenu(true)}><span className="obs-orbit-dot"/></button>
-    <dialog ref={dialog} id="obsidian-menu" className="obs-mobile-menu" aria-label="Section navigation" onCancel={()=>setMenu(false)}><div className="obs-menu-head"><span className="obs-mono">{content.editions.obsidian.name}</span><button className="obs-menu-close" aria-label={content.controls.closeMenu} onClick={()=>setMenu(false)}><X/></button></div><nav>{navItems.map(item=><a key={item.id} href={`#${item.id}`} className="obs-mono obs-underline" onClick={e=>{e.preventDefault();navigate(item.id);}}>{item.number} — {item.label}</a>)}</nav></dialog>
+    <Button variant="obsidianIcon" size="icon" className="obs-mobile-orbit" aria-label={content.controls.openMenu} aria-expanded={menu} aria-controls="obsidian-menu" onClick={()=>setMenu(true)}><span className="obs-orbit-dot"/></Button>
+    <dialog ref={dialog} id="obsidian-menu" className="obs-mobile-menu" aria-label="Section navigation" onCancel={()=>setMenu(false)}><div className="obs-menu-head"><span className="obs-mono">{content.editions.obsidian.name}</span><Button variant="obsidianIcon" size="icon" aria-label={content.controls.closeMenu} onClick={()=>setMenu(false)}><X/></Button></div><nav>{navItems.map(item=><a key={item.id} href={`#${item.id}`} className="obs-mono obs-underline" onClick={e=>{e.preventDefault();navigate(item.id);}}>{item.number} — {item.label}</a>)}</nav></dialog>
     <main className="obs-main">
       <SectionAnchor id="hero" className="obs-hero"><div className="obs-container"><div className="obs-hero-copy text-zone"><p className="obs-mono obs-eyebrow">{content.hero.label}</p><h1>{content.person.name}</h1><p className="obs-mono obs-disciplines">{content.hero.disciplines}</p><p className="obs-tagline">{content.hero.tagline}</p><div className="obs-cta-row"><Button variant="obsidian" asChild><a href="#projects" onClick={e=>{e.preventDefault();navigate("projects");}}>View Work <ArrowUpRight/></a></Button><Button variant="obsidianGhost" asChild><a href="#contact" onClick={e=>{e.preventDefault();navigate("contact");}}>Get in Touch <ArrowUpRight/></a></Button></div></div><a href="#about" className="obs-scroll obs-mono text-zone" onClick={e=>{e.preventDefault();navigate("about");}}>[ scroll ] <ArrowDown size={14}/></a></div></SectionAnchor>
       <SectionAnchor id="about" className="obs-section obs-container">{label(0)}<div className="obs-metrics">{content.hero.metrics.map((metric,i)=><SpatialPanel key={metric.label} depth={.1+i*.1} index={i}><div className="obs-glass obs-metric"><div className="text-zone"><span className="obs-metric-value">{metric.value}</span><p className="obs-mono">{metric.label}</p></div></div></SpatialPanel>)}</div><SpatialPanel className="obs-bio-panel" depth={.25}><div className="obs-glass obs-bio text-zone"><p>{content.about.bio}</p></div></SpatialPanel><div className="obs-domains text-zone">{content.about.domains.map(domain=><div key={domain.label}><h3 className="obs-mono">{domain.label}</h3><p>{domain.description}</p></div>)}</div></SectionAnchor>
