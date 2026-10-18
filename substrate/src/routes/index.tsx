@@ -63,12 +63,23 @@ function Index() {
       <section id="projects" className="section projects-section">
         <Reveal className="meta section-label">04 / Projects</Reveal>
         <Reveal as="h2">Selected Work</Reveal>
-        {portfolio.projects.map((p,i) => <article className={`project ${i < 2 ? 'featured' : i < 6 ? 'secondary' : 'compact'}`} key={p.title}>
-          {i < 6 && <Reveal className="meta project-category">{p.category}</Reveal>}
+        {portfolio.projects.slice(0,6).map((p,i) => <article className={`project ${i < 2 ? 'featured' : 'secondary'}`} key={p.title}>
+          <Reveal className="meta project-category">{p.category}</Reveal>
           <h3>{p.url ? <a className="project-title" href={p.url} target="_blank" rel="noopener noreferrer"><Reveal as="span">{p.title}</Reveal><span className="project-arrow" aria-hidden="true">→</span></a> : <Reveal as="span">{p.title}</Reveal>}</h3>
-          {i < 6 && <Reveal className="project-description">{p.description}</Reveal>}
+          <Reveal className="project-description">{p.description}</Reveal>
           <Reveal className="project-tags">{p.tags}</Reveal>
-          {i < 4 && p.caseStudy && <a className="mono case-study-link" href={p.caseStudy} target="_blank" rel="noopener noreferrer">READ FULL CASE STUDY →</a>}
+          <div className="project-actions">
+            {p.url && <a className="mono editorial-link project-view" href={p.url} target="_blank" rel="noopener noreferrer">VIEW →</a>}
+            {p.caseStudy && <a className="mono case-study-link" href={p.caseStudy} target="_blank" rel="noopener noreferrer">READ FULL CASE STUDY →</a>}
+          </div>
+        </article>)}
+        {portfolio.projects.slice(6).map((p,i) => <article className="project compact" key={p.title}>
+          <Reveal as="h3">{p.url ? <a className="project-title" href={p.url} target="_blank" rel="noopener noreferrer">{p.title}<span className="project-arrow" aria-hidden="true">→</span></a> : <span>{p.title}</span>}</Reveal>
+          <Reveal className="project-tags">{p.tags}</Reveal>
+          <div className="project-actions">
+            {p.url && <a className="mono editorial-link project-view" href={p.url} target="_blank" rel="noopener noreferrer">VIEW →</a>}
+            {p.caseStudy && <a className="mono case-study-link" href={p.caseStudy} target="_blank" rel="noopener noreferrer">READ FULL CASE STUDY →</a>}
+          </div>
         </article>)}
       </section>
       <section id="contact" className="section contact-section">

@@ -121,6 +121,9 @@
 .project h3 { font-size: 40px; margin-bottom: 24px; }
 .project-description { max-width: 62ch; margin-bottom: 24px; font-size: 16px; }
 .project-tags { font-family: var(--font-mono-family); font-size: 11px; color: var(--text-meta-accessible); line-height: 2; }
+.project-actions { display: flex; gap: 16px; margin-top: 16px; }
+.project-actions a { font-family: var(--font-mono-family); font-size: 11px; color: var(--primary); text-decoration: none; }
+.project-actions a:hover { text-decoration: underline; }
 .project-arrow { margin-left: 20px; font-family: var(--font-body); color: var(--primary); white-space: nowrap; }
 .project.secondary h3 { font-size: 28px; margin-bottom: 14px; }
 .project.secondary { margin-bottom: 70px; }
