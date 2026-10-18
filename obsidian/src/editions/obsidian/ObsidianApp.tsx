@@ -36,7 +36,7 @@ export function ObsidianApp({content}:{content:PortfolioContent}) {
     let scheduled=0;
     const update=()=>{scheduled=0;let current="hero";for(const item of navItems){const el=root.current?.querySelector<HTMLElement>(`#${item.id}`);if(el && el.getBoundingClientRect().top<=window.innerHeight*.42)current=item.id;}setActive(current);};
     const scroll=()=>{if(!scheduled)scheduled=requestAnimationFrame(update);};update();window.addEventListener("scroll",scroll,{passive:true});
-    return()=>{window.removeEventListener("scroll",scroll);cancelAnimationFrame(scheduled);document.documentElement.style.scrollSnapType=previous;};
+    return()=>{window.removeEventListener("scroll",scroll);cancelAnimationFrame(scheduled);document.documentElement.style.scrollSnapType=previous;document.documentElement.classList.remove("light");};
   },[content]);
   useEffect(()=>{const el=dialog.current;if(!el)return undefined;if(menu){el.showModal();return()=>el.close();}el.close();return undefined;},[menu]);
   function toggle(){const next=mode==="dark"?"light":"dark";setMode(next);document.documentElement.classList.toggle("light",next==="light");try{localStorage.setItem("linathi:obsidian-theme",next);}catch{/* Optional storage. */}}
