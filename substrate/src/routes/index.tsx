@@ -44,21 +44,17 @@ function Index() {
         <Reveal as="h2" className="meta section-label">01 / About Me</Reveal>
         <div className="about-layout">
           <Reveal className="bio">{portfolio.bio}</Reveal>
-          <div className="stats">
-            <div className="stat"><Reveal className="stat-number">100+</Reveal><Reveal className="meta">Websites Managed</Reveal></div>
-            <div className="stat"><Reveal className="stat-number">5+</Reveal><Reveal className="meta">Years Experience</Reveal></div>
-          </div>
         </div>
-        <div className="pillars">{portfolio.pillars.map(p => <div className="pillar" key={p.name}><Reveal as="h3">{p.name}</Reveal><Reveal>{p.description}</Reveal></div>)}</div>
+        <div className="pillars">{portfolio.domains.map(p => <div className="pillar" key={p.name}><Reveal as="h3">{p.name}</Reveal><Reveal>{p.description}</Reveal></div>)}</div>
       </section>
       <section id="skills" className="section skills-section">
         <Reveal as="h2" className="meta section-label">02 / Technical Skills</Reveal>
-        {portfolio.skills.map(s => <div className="skills-group" key={s.name}><Reveal as="h3">{s.name}</Reveal>{' — '}<Reveal>{s.items}</Reveal></div>)}
+        {portfolio.skills.map(s => <div className="skills-group" key={s.name}><Reveal as="h3">{s.name}</Reveal>{' — '}<Reveal>{s.skills}</Reveal></div>)}
       </section>
       <section id="experience" className="section experience-section">
         <Reveal as="h2" className="meta section-label">03 / Professional Experience</Reveal>
-        {portfolio.roles.map(r => <article className="role" key={r.title}>
-          <span className="ghost-year" aria-hidden="true">{r.year}</span>
+        {portfolio.experience.map(r => <article className="role" key={r.title}>
+          <span className="ghost-year" aria-hidden="true">{r.dates.split(' – ')[0]}</span>
           <Reveal as="h3">{r.title}</Reveal>
           <Reveal className="meta role-meta">{`${r.company} · ${r.dates} · ${r.location}`}</Reveal>
           <ul>{r.bullets.map(b => <li key={b}><span className="bullet" aria-hidden="true">·</span><Reveal>{b}</Reveal></li>)}</ul>
