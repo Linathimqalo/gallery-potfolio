@@ -11,9 +11,18 @@ export function RoomPreview({ name, previewUrl, fallbackImage, fallbackReady }: 
   const [frameFailed, setFrameFailed] = useState(false);
   const [imageFailed, setImageFailed] = useState(false);
   const [iframeSrc, setIframeSrc] = useState<string>("about:blank");
+  const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const showFrame = Boolean(previewUrl) && !frameFailed;
+  const showFrame = Boolean(previewUrl) && !frameFailed && !isMobile;
   const showImage = !showFrame && fallbackReady && !imageFailed;
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.matchMedia('(max-width: 768px)').matches);
+    checkMobile();
+    const mediaQuery = window.matchMedia('(max-width: 768px)');
+    mediaQuery.addEventListener('change', checkMobile);
+    return () => mediaQuery.removeEventListener('change', checkMobile);
+  }, []);
 
   useEffect(() => {
     if (!showFrame || !containerRef.current) return;
@@ -47,7 +56,11 @@ export function RoomPreview({ name, previewUrl, fallbackImage, fallbackReady }: 
   return (
     <div className="preview-frame" aria-hidden="true" ref={containerRef}>
       <span className="reading-bracket bracket-top" />
-      {showFrame ? (
+      {isMobile ? (
+        <div className="preview-placeholder">
+          <span className="preview-name">{name}</span>
+        </div>
+      ) : showFrame ? (
         <iframe
           src={iframeSrc}
           title={`${name} portfolio preview`}
