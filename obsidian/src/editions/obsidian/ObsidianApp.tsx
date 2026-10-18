@@ -36,13 +36,13 @@ export function ObsidianApp({content}:{content:PortfolioContent}) {
     let scheduled=0;
     const update=()=>{scheduled=0;let current="hero";for(const item of navItems){const el=root.current?.querySelector<HTMLElement>(`#${item.id}`);if(el && el.getBoundingClientRect().top<=window.innerHeight*.42)current=item.id;}setActive(current);};
     const scroll=()=>{if(!scheduled)scheduled=requestAnimationFrame(update);};update();window.addEventListener("scroll",scroll,{passive:true});
-    return()=>{window.removeEventListener("scroll",scroll);cancelAnimationFrame(scheduled);document.documentElement.style.scrollSnapType=previous;document.documentElement.classList.remove("light");};
+    return()=>{window.removeEventListener("scroll",scroll);cancelAnimationFrame(scheduled);document.documentElement.style.scrollSnapType=previous;};
   },[content]);
   useEffect(()=>{const el=dialog.current;if(!el)return undefined;if(menu){el.showModal();return()=>el.close();}el.close();return undefined;},[menu]);
   function toggle(){const next=mode==="dark"?"light":"dark";setMode(next);document.documentElement.classList.toggle("light",next==="light");try{localStorage.setItem("linathi:obsidian-theme",next);}catch{/* Optional storage. */}}
   function navigate(id:string){setMenu(false);setActive(id);requestAnimationFrame(()=>{const el=root.current?.querySelector<HTMLElement>(`#${id}`);el?.scrollIntoView({behavior:reduced?"instant":"smooth",block:"start"});history.replaceState(history.state,"",`${location.pathname}${location.search}#${id}`);});}
   const label=(index:number)=>{const section=content.sections[index];return section?<h2 className="obs-section-label obs-mono text-zone"><span>{section.number}</span> — {section.label}</h2>:null;};
-  return <div ref={root} className="obsidian" data-mode={mode} data-contact={active==="contact"}>
+  return <div ref={root} className="obsidian" data-edition="obsidian" data-mode={mode} data-contact={active==="contact"}>
     <FractalSubstrate mode={mode}/><SpatialEffects/>
     <a href="#hero" className="obs-skip">{content.controls.skip}</a>
     <header className="obs-topbar"><a className="obs-wordmark obs-mono text-zone" href="#hero">{content.person.name}</a><div className="obs-tools text-zone"><a className="obs-mono obs-underline" href="https://the-gallery-home.vercel.app">← GALLERY</a><Button variant="obsidianIcon" size="icon" aria-label={mode==="dark"?content.controls.light:content.controls.dark} title={mode==="dark"?content.controls.light:content.controls.dark} onClick={toggle}><AnimatePresence initial={false} mode="wait"><motion.span key={mode} initial={{opacity:0,rotate:reduced?0:-3}} animate={{opacity:1,rotate:0}} exit={{opacity:0,rotate:reduced?0:3}} transition={{duration:reduced?0:.2}}>{mode==="dark"?<Sun/>:<Moon/>}</motion.span></AnimatePresence></Button></div></header>
