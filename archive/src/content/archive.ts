@@ -29,6 +29,147 @@ export const displayDate = (date: string) => {
 
 export const projects: Project[] = [
   {
+    slug: 'aws-storage-platform',
+    title: 'AWS Storage Platform - Progressive Cloud Engineering and Detection Case Study',
+    category: 'Cloud Engineering',
+    date: '2026-10-06',
+    tools: ['AWS CLI', 'Terraform', 'IAM', 'S3', 'KMS', 'Detection Engineering', 'Incident Response'],
+    tags: ['Object storage', 'Access control', 'Observability', 'Terraform', 'Security'],
+    summary: 'Designing a resilient storage foundation with deliberate access controls, lifecycle policies, and detection engineering through four progressive phases.',
+    executiveSummary: 'This project documents the build of an AWS storage environment across four progressive phases, developed entirely in a local AWS emulator (Floci). The goal was not to learn individual AWS services in isolation, but to understand how a real cloud environment evolves: from manual provisioning through automation, security hardening, and finally operational detection. The environment manages five S3 buckets, a KMS encryption key, and a least-privilege IAM user, all under Terraform control with remote state. A custom Bash audit script checks every bucket for public exposure, writes structured JSON reports, and exits non-zero when findings exist. The most valuable part of the project was not the infrastructure. It was what happened when I deliberately broke it. After applying Block Public Access, SSE-KMS encryption, and explicit Deny policies to every bucket, I disabled one bucket\'s controls and added a public policy to see whether my detection would catch it. It caught the Block Public Access drift. It missed the public policy entirely - a bug in my own audit script. Fixing that bug taught more about detection engineering than any tutorial. A detector that fails silently is worse than no detector at all.',
+    sections: [
+      {
+        id: 'project-structure',
+        title: 'Project Structure',
+        blocks: [
+          { type: 'paragraph', text: 'The project is organised as four phases, each a distinct layer of engineering maturity:' },
+          { type: 'table', headers: ['Phase', 'Focus', 'Key Output'], rows: [['1', 'CLI Fundamentals', 'Manual provisioning, evidence capture'], ['2', 'Terraform Automation', 'Declarative infrastructure, state management'], ['3', 'Security Controls', 'Block Public Access, SSE-KMS, explicit Deny, IAM least privilege'], ['4', 'Operations & Detection', 'Audit script, remote state, incident-response documentation']] },
+          { type: 'paragraph', text: 'Each phase lives in a numbered folder (legacy/phase-1-cli/, etc.) with a standalone README explaining its scope, commands, and findings.' }
+        ]
+      },
+      {
+        id: 'environment-tooling',
+        title: 'Environment and Tooling',
+        blocks: [
+          { type: 'heading', text: 'AWS Emulator' },
+          { type: 'paragraph', text: 'Floci - runs locally in Docker, exposes the S3, IAM, KMS, and STS APIs on localhost:4566' },
+          { type: 'heading', text: 'CLI' },
+          { type: 'paragraph', text: 'AWS CLI v2' },
+          { type: 'heading', text: 'Infrastructure as Code' },
+          { type: 'paragraph', text: 'Terraform v1.16, AWS provider v5.100.0' },
+          { type: 'heading', text: 'Scripting' },
+          { type: 'paragraph', text: 'Bash with jq for JSON parsing' },
+          { type: 'heading', text: 'Version Control' },
+          { type: 'paragraph', text: 'Git, hosted on GitHub' },
+          { type: 'heading', text: 'State' },
+          { type: 'paragraph', text: 'S3 remote backend (terraform-state-storage)' },
+          { type: 'paragraph', text: 'Floci was chosen for cost and safety. Real AWS would incur charges, and - more importantly - the misconfiguration drill in Phase 3 would be dangerous against a live account. Running locally means breaking things on purpose carries no risk. The patterns learned (Terraform structure, IAM least privilege, S3 security controls, detection design) translate directly to real AWS. The only differences are in the emulator\'s quirks and the endpoints override.' }
+        ]
+      },
+      {
+        id: 'phase-1',
+        title: 'Phase 1 - CLI Fundamentals',
+        blocks: [
+          { type: 'paragraph', text: 'Phase 1 established the basics: creating IAM users, creating S3 buckets, uploading objects, and inspecting ACLs and metadata. Every command\'s output was saved to a file as evidence - the same practice a security engineer follows during an audit.' },
+          { type: 'heading', text: 'Key commands and what they taught' },
+          { type: 'code', language: 'bash', code: '# Establish identity - always the first command in a session\naws sts get-caller-identity\n\n# Create an identity\naws iam create-user --user-name storage-admin\n\n# Create and populate a bucket\naws s3 mb s3://company-storage-lab\naws s3 cp lab-data.txt s3://company-storage-lab/lab-data.txt\n\n# Audit bucket access\naws s3api get-bucket-acl --bucket company-storage-lab\n\n# Inspect object metadata (size, ETag/MD5, content type)\naws s3api head-object --bucket audit-logs-lab --key audit-entry.txt' },
+          { type: 'paragraph', text: 'The distinction between high-level (aws s3) and low-level (aws s3api) commands became central. aws s3 hides security settings behind simple operations; aws s3api exposes everything. Security work uses s3api more often. Several command mistakes taught naming conventions: list-users is plural because it returns a list; get-bucket-acl is singular because it acts on one bucket. The AWS CLI uses this distinction consistently.' },
+          { type: 'heading', text: 'Findings from Phase 1' },
+          { type: 'paragraph', text: 'Fresh buckets show only the owner with FULL_CONTROL and no public grants. This is the correct baseline. Default encryption is AWS-managed AES256 - no customer-managed KMS key.' }
+        ]
+      },
+      {
+        id: 'phase-2',
+        title: 'Phase 2 - Terraform Automation',
+        blocks: [
+          { type: 'paragraph', text: 'Phase 2 rebuilt the Phase 1 environment declaratively. The shift from imperative ("do this now") to declarative ("this is what I want to exist") is more significant than it first appears. Terraform tracks state. It knows what it created, and it detects when reality diverges. This is the property that makes it safe to use at scale - no accidental duplicates, no forgotten resources.' },
+          { type: 'heading', text: 'The core configuration' },
+          { type: 'code', language: 'hcl', code: 'provider "aws" {\n  region                      = "us-east-1"\n  access_key                  = "flociadmin"\n  secret_key                  = "flociadmin"\n  skip_credentials_validation = true\n  skip_metadata_api_check     = true\n  skip_requesting_account_id  = true\n  s3_use_path_style           = true\n\n  endpoints {\n    s3  = "http://localhost:4566"\n    iam = "http://localhost:4566"\n    sts = "http://localhost:4566"\n  }\n}\n\nresource "aws_s3_bucket" "terraform_lab" {\n  bucket = var.primary_bucket_name\n}' },
+          { type: 'paragraph', text: 'The endpoints block redirects every API call to Floci - the same mechanism the CLI uses via AWS_ENDPOINT_URL. The s3_use_path_style setting tells Terraform to use localhost:4566/bucket instead of bucket.s3.amazonaws.com, matching the emulator\'s expectations. Two buckets were created (terraform-managed-lab and terraform-managed-backup), both driven by variables. The state file tracks what Terraform manages - and it must never be committed to Git because it can contain sensitive values.' },
+          { type: 'callout', label: 'Key lesson', text: 'Idempotency. After a successful apply, running plan again shows No changes. Terraform compares config, state, and reality; if they match, it does nothing. This is why infrastructure-as-code is safer than manual commands.' }
+        ]
+      },
+      {
+        id: 'phase-3',
+        title: 'Phase 3 - Security Controls',
+        blocks: [
+          { type: 'paragraph', text: 'Phase 3 applied the security controls that every production S3 bucket should have. Four layers, applied through Terraform:' },
+          { type: 'heading', text: '1. Block Public Access (all four settings)' },
+          { type: 'code', language: 'hcl', code: 'resource "aws_s3_bucket_public_access_block" "terraform_lab" {\n  bucket = aws_s3_bucket.terraform_lab.id\n\n  block_public_acls       = true\n  block_public_policy     = true\n  ignore_public_acls      = true\n  restrict_public_buckets = true\n}' },
+          { type: 'paragraph', text: 'Each of the four settings addresses a different vector. block_public_acls prevents new public ACLs. ignore_public_acls neutralises existing ones. block_public_policy rejects public bucket policies. restrict_public_buckets blocks cross-account access via public policies. All four must be enabled for full protection.' },
+          { type: 'heading', text: '2. Customer-managed KMS key' },
+          { type: 'code', language: 'hcl', code: 'resource "aws_kms_key" "storage_key" {\n  description             = "KMS key for S3 storage encryption"\n  deletion_window_in_days = 7\n  enable_key_rotation     = true\n}' },
+          { type: 'paragraph', text: 'Customer-managed keys give control over rotation, access, and audit. For regulated environments (PCI DSS, HIPAA), they\'re typically required.' },
+          { type: 'heading', text: '3. SSE-KMS encryption' },
+          { type: 'code', language: 'hcl', code: 'resource "aws_s3_bucket_server_side_encryption_configuration" "terraform_lab" {\n  bucket = aws_s3_bucket.terraform_lab.id\n\n  rule {\n    apply_server_side_encryption_by_default {\n      sse_algorithm     = "aws:kms"\n      kms_master_key_id = aws_kms_key.storage_key.arn\n    }\n    bucket_key_enabled = true\n  }\n}' },
+          { type: 'paragraph', text: 'bucket_key_enabled = true reduces KMS API calls by up to 99% by using a bucket-level derived key.' },
+          { type: 'heading', text: '4. Explicit Deny public policy' },
+          { type: 'code', language: 'hcl', code: 'resource "aws_s3_bucket_policy" "terraform_lab_deny_public" {\n  bucket = aws_s3_bucket.terraform_lab.id\n\n  policy = jsonencode({\n    Version = "2012-10-17"\n    Statement = [{\n      Sid       = "DenyPublicRead"\n      Effect    = "Deny"\n      Principal = "*"\n      Action    = "s3:GetObject"\n      Resource  = "${aws_s3_bucket.terraform_lab.arn}/*"\n      Condition = {\n        StringNotEquals = {\n          "aws:PrincipalAccount" = "000000000000"\n        }\n      }\n    }]\n  })\n}' },
+          { type: 'paragraph', text: 'Explicit Deny always wins over Allow. It\'s the last line of defense - even if someone accidentally adds a public Allow policy, this Deny blocks it.' },
+          { type: 'heading', text: '5. Least-privilege IAM user' },
+          { type: 'paragraph', text: 'The audit-reader user receives only s3:ListBucket and s3:GetObject, scoped to two specific buckets. No write, no delete, no bucket creation. This is what least privilege looks like in practice.' },
+          { type: 'paragraph', text: 'Adopting existing resources: Phase 3 required terraform import to adopt buckets created by hand in Phase 1. The problem is common - teams introducing IaC into an existing environment face it constantly. Import attaches a real resource to a declared config address; Terraform then manages it like any other resource.' }
+        ]
+      },
+      {
+        id: 'phase-4',
+        title: 'Phase 4 - Operations and Detection',
+        blocks: [
+          { type: 'paragraph', text: 'Phase 4 fixed a bug in the audit script, restructured the repository, imported the remaining legacy buckets into Terraform, and moved state to S3.' },
+          { type: 'heading', text: 'The audit script' },
+          { type: 'paragraph', text: 'It iterates every bucket and checks two things: whether Block Public Access is enabled (all four settings), and whether any bucket policy contains Effect: "Allow" with a wildcard Principal. Findings are written to a timestamped JSON report, a rolling log is appended, and the script exits non-zero when findings exist - so CI systems can fail on it.' },
+          { type: 'heading', text: 'The policy check, correctly written' },
+          { type: 'code', language: 'bash', code: 'has_wildcard=$(echo "$policy_raw" | jq \'\n  [.Statement[] | select(.Effect == "Allow") | select(.Principal == "*")] | length\n\')\n\nif [ "$has_wildcard" -gt 0 ]; then\n  echo "  CRITICAL: Public policy with wildcard principal (Allow)"\nfi' },
+          { type: 'paragraph', text: 'The original version used a grep pattern that didn\'t match the actual output format. The rewrite with jq parses JSON structurally - no escaping ambiguity, no false negatives.' },
+          { type: 'heading', text: 'Remote state' },
+          { type: 'code', language: 'hcl', code: 'terraform {\n  backend "s3" {\n    bucket = "terraform-state-storage"\n    key    = "storage-platform/terraform.tfstate"\n    region = "us-east-1"\n    # Floci-specific endpoint and credentials omitted for brevity\n  }\n}' },
+          { type: 'paragraph', text: 'Remote state prevents loss if a laptop dies, and enables team collaboration. Credentials are externalised - the backend config is gitignored, with a template provided for reference.' },
+          { type: 'heading', text: 'The final audit' },
+          { type: 'paragraph', text: 'Six buckets, zero findings. Every bucket managed by Terraform, all with Block Public Access enabled, no public policies.' }
+        ]
+      },
+      {
+        id: 'misconfiguration-drill',
+        title: 'The Misconfiguration Drill',
+        blocks: [
+          { type: 'paragraph', text: 'This is the part of the project that taught the most.' },
+          { type: 'paragraph', text: 'After Phase 4, the environment was clean. Every bucket was secured. The audit reported zero findings. In a real engineering context, that\'s where many projects stop - "it works, ship it."' },
+          { type: 'paragraph', text: 'I broke it on purpose.' },
+          { type: 'heading', text: 'Two commands' },
+          { type: 'code', language: 'bash', code: '# Disable all four Block Public Access settings on the backup bucket\naws s3api put-public-access-block \\\n  --bucket terraform-managed-backup \\\n  --public-access-block-configuration \\\n  "BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false"\n\n# Attach a public read policy\naws s3api put-bucket-policy \\\n  --bucket terraform-managed-backup \\\n  --policy \'{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":"*","Action":"s3:GetObject","Resource":"arn:aws:s3:::terraform-managed-backup/*"}]}\'\n' },
+          { type: 'paragraph', text: 'The bucket was now readable by anyone on the internet.' },
+          { type: 'heading', text: 'What Terraform caught' },
+          { type: 'code', language: 'text', code: '~ resource "aws_s3_bucket_public_access_block" "backup_lab" {\n    ~ block_public_acls       = false -> true\n    ~ block_public_policy     = false -> true\n    ~ ignore_public_acls      = false -> true\n    ~ restrict_public_buckets = true\n  }\n\nPlan: 0 to add, 1 to change, 0 to destroy.' },
+          { type: 'paragraph', text: 'Terraform detected the Block Public Access drift because that resource was declared in its configuration. It proposed restoring the correct settings.' },
+          { type: 'heading', text: 'What Terraform missed' },
+          { type: 'paragraph', text: 'The public policy was not declared in the configuration, so Terraform had no way to detect it. Terraform only manages what it knows about. Anything created outside its scope is invisible. This is not a Terraform failure. It\'s a fundamental property of declarative IaC: the tool manages what you tell it to manage. Everything else requires independent detection.' },
+          { type: 'heading', text: 'What the audit script caught - and didn\'t' },
+          { type: 'paragraph', text: 'The Phase 3 audit script ran against the broken bucket. It correctly flagged the four disabled Block Public Access settings. It did not flag the public policy. The grep pattern in the script was looking for escaped JSON quotes in a specific format. The actual output of aws s3api get-bucket-policy didn\'t match. This was a silent false negative - the script reported "fine" when the bucket was exposed. That bug was the reason Phase 4 exists.' },
+          { type: 'heading', text: 'The fix' },
+          { type: 'paragraph', text: 'Rewriting the check with jq made it structural. Parse JSON as JSON, select statements where Effect == "Allow" and Principal == "*", count them. Zero means no public policy; anything greater is a finding. Tested against both a correctly configured bucket (returns 0) and a deliberately exposed one (returns 1). Both cases passed.' }
+        ]
+      },
+      {
+        id: 'key-lesson',
+        title: 'Key Lesson',
+        blocks: [
+          { type: 'heading', text: 'Detection tools need their own testing' },
+          { type: 'paragraph', text: 'A detector that fails silently is worse than no detector, because it creates false confidence. The bucket looked safe. The script said it was safe. But the script was broken. This is a known problem in security engineering - detection content is software, and software has bugs. Mature teams test their detectors against both positive cases (a misconfiguration that should be caught) and negative cases (a correct configuration that should not be flagged). Anything less produces noise on one side and silence on the other. The lesson generalises beyond this project. Every automated check - Config rules, GuardDuty findings, custom Lambda detectors, dashboards - needs the same discipline. The check that catches 99% of cases but fails on the one that matters is not a control. It\'s a comfort blanket.' }
+        ]
+      },
+      {
+        id: 'what-id-do-differently',
+        title: 'What I\'d Do Differently',
+        blocks: [
+          { type: 'heading', text: '1. Test the audit script from day one' },
+          { type: 'paragraph', text: 'The bug existed for a full phase. In a real environment, that\'s a window during which exposure could go undetected. The script should have been tested against a known-bad bucket the moment it was written.' },
+          { type: 'heading', text: '2. Use Terraform modules earlier' },
+          { type: 'paragraph', text: 'The module refactor in Phase 5B reduced ~25 resource blocks to five module calls. That structure should have been in place from Phase 2 - copying config between phases led to a missing-resource error that cost time.' }
+        ]
+      }
+    ]
+  },
+  {
     slug: 'ec2-rds-three-tier',
     title: 'EC2 + RDS Three-Tier Architecture - Case Study',
     category: 'Cloud Architecture',
@@ -147,6 +288,153 @@ export const projects: Project[] = [
           { type: 'heading', text: '10 — Repository' },
           { type: 'paragraph', text: 'The full project is in the 06-ec2-rds-three-tier/ folder of the aws-cloud-labs repository.' },
           { type: 'paragraph', text: 'github.com/Linathimqalo/aws-cloud-labs' }
+        ]
+      }
+    ]
+  },
+  {
+    slug: 'cloud-honeypot-analysis',
+    title: 'Comparative Cloud Honeypot Analysis - Case Study',
+    category: 'Cybersecurity',
+    date: '2026-10-10',
+    tools: ['T-Pot', 'Docker', 'ELK Stack', 'GCP', 'Azure', 'Security'],
+    tags: ['Honeypot', 'Threat Intelligence', 'Docker', 'Elasticsearch', 'Multi-Cloud'],
+    summary: 'Enterprise-grade honeypot system for threat intelligence and attack pattern analysis comparing GCP vs Azure deployments.',
+    executiveSummary: 'This project documents the deployment of T-Pot multi-honeypot systems across both Google Cloud Platform and Microsoft Azure. The goal was to build comparative threat intelligence collection platforms to analyze attack patterns across different cloud providers. The architecture exposes multiple vulnerable Docker containers (SSH, SMB, RDP, HTTP) to the internet while strictly isolating the administrative dashboard and SSH access. The deployment successfully captured thousands of brute-force and exploit attempts, providing raw data for comparative threat intelligence analysis between the two cloud environments.',
+    sections: [
+      {
+        id: 'architecture',
+        title: 'Architecture',
+        blocks: [
+          { type: 'heading', text: '01 — Architecture' },
+          { type: 'paragraph', text: 'Compute: Multiple VM instances across GCP and Azure running Ubuntu.' },
+          { type: 'paragraph', text: 'Containers: 41 Docker containers managed by the T-Pot framework per instance.' },
+          { type: 'paragraph', text: 'Storage: EBS volumes and Azure disks for logs and Elasticsearch indices.' },
+          { type: 'paragraph', text: 'Access: Administrative access (Kibana, SSH) restricted via Security Groups and Network Security Groups to trusted IPs.' }
+        ]
+      },
+      {
+        id: 'comparative-analysis',
+        title: 'Comparative Analysis',
+        blocks: [
+          { type: 'heading', text: '02 — Comparative Analysis' },
+          { type: 'paragraph', text: 'GCP Deployment: Google Cloud Compute Engine with Cloud Armor for DDoS protection.' },
+          { type: 'paragraph', text: 'Azure Deployment: Azure Virtual Machines with Azure Firewall integration.' },
+          { type: 'paragraph', text: 'Comparison Metrics: Attack volume, geographic distribution, attack types, response times, and false positive rates across both platforms.' }
+        ]
+      },
+      {
+        id: 'detection-engineering',
+        title: 'Detection Engineering',
+        blocks: [
+          { type: 'heading', text: '03 — Detection Engineering' },
+          { type: 'paragraph', text: 'The T-Pot platform provides comprehensive detection capabilities:' },
+          { type: 'paragraph', text: 'Suricata: Inspects network traffic for known exploit signatures.' },
+          { type: 'paragraph', text: 'Cowrie: Emulates an SSH server, logging every username and password attempted.' },
+          { type: 'paragraph', text: 'Dionaea: Emulates Windows SMB/MSSQL vulnerabilities to capture malware payloads.' },
+          { type: 'paragraph', text: 'Detection Outcome: Captured 285,000+ attacks across both cloud providers, enabling comparative analysis of threat patterns and geographic distribution.' }
+        ]
+      },
+      {
+        id: 'key-lessons',
+        title: 'Key Lessons',
+        blocks: [
+          { type: 'heading', text: '04 — Key Lessons' },
+          { type: 'heading', text: 'Lesson 1: Cloud providers exhibit different attack patterns.' },
+          { type: 'paragraph', text: 'The geographic distribution and types of attacks varied significantly between GCP and Azure, suggesting different threat actor targeting preferences.' },
+          { type: 'heading', text: 'Lesson 2: Native cloud security tools integrate differently.' },
+          { type: 'paragraph', text: 'GCP Cloud Armor and Azure Firewall offer different capabilities and APIs, requiring platform-specific configurations for equivalent security postures.' }
+        ]
+      },
+      {
+        id: 'outcome',
+        title: 'Outcome',
+        blocks: [
+          { type: 'heading', text: '05 — Outcome' },
+          { type: 'paragraph', text: 'Successfully deployed comparative honeypot infrastructure across two major cloud providers. Captured, parsed, and visualized real-world attack traffic, proving the ability to build complex, multi-container security infrastructure with strict network isolation and enabling comparative threat intelligence analysis.' }
+        ]
+      },
+      {
+        id: 'repository',
+        title: 'Repository',
+        blocks: [
+          { type: 'heading', text: '06 — Repository' },
+          { type: 'paragraph', text: 'The full project is in the cloud-honeypot-analysis repository.' },
+          { type: 'paragraph', text: 'github.com/Linathimqalo/cloud-honeypot-analysis' }
+        ]
+      }
+    ]
+  },
+  {
+    slug: 'zeus-malware-analysis',
+    title: 'Zeus Banking Trojan - Malware Analysis Case Study',
+    category: 'Security Research',
+    date: '2026-10-15',
+    tools: ['IDA Pro', 'OllyDbg', 'Wireshark', 'Virtual Machines', 'YARA Rules'],
+    tags: ['Malware Analysis', 'Reverse Engineering', 'Banking Trojan', 'Static Analysis', 'Dynamic Analysis'],
+    summary: 'Deep dive malware analysis of Zeus banking trojan using static and dynamic analysis techniques.',
+    executiveSummary: 'This project documents a comprehensive malware analysis of the Zeus banking trojan, one of the most notorious financial malware families. The analysis employed both static and dynamic techniques including disassembly with IDA Pro, debugging with OllyDbg, network traffic analysis with Wireshark, and behavioral analysis in isolated virtual machines. The investigation uncovered the trojan\'s C2 communication protocols, encryption mechanisms, data exfiltration methods, and anti-analysis techniques. The analysis produced YARA rules for detection and detailed documentation of the malware\'s infection chain and persistence mechanisms.',
+    sections: [
+      {
+        id: 'analysis-methodology',
+        title: 'Analysis Methodology',
+        blocks: [
+          { type: 'heading', text: '01 — Analysis Methodology' },
+          { type: 'paragraph', text: 'Static Analysis: Disassembly and reverse engineering using IDA Pro to understand the malware\'s code structure and functionality.' },
+          { type: 'paragraph', text: 'Dynamic Analysis: Debugging with OllyDbg to observe runtime behavior and trace execution flow.' },
+          { type: 'paragraph', text: 'Network Analysis: Wireshark packet capture to identify C2 communication and data exfiltration.' },
+          { type: 'paragraph', text: 'Behavioral Analysis: Execution in isolated VMs to observe system modifications and persistence mechanisms.' }
+        ]
+      },
+      {
+        id: 'key-findings',
+        title: 'Key Findings',
+        blocks: [
+          { type: 'heading', text: '02 — Key Findings' },
+          { type: 'heading', text: 'C2 Communication' },
+          { type: 'paragraph', text: 'The malware uses encrypted HTTP/HTTPS communications with hardcoded C2 servers. Command-and-control packets use RC4 encryption with custom obfuscation to evade detection.' },
+          { type: 'heading', text: 'Data Exfiltration' },
+          { type: 'paragraph', text: 'Zeus captures banking credentials, browser cookies, and system information. Data is exfiltrated in encrypted POST requests to the C2 server at regular intervals.' },
+          { type: 'heading', text: 'Anti-Analysis Techniques' },
+          { type: 'paragraph', text: 'The malware implements multiple anti-debugging and anti-VM techniques including API hooking, process hollowing, and environment checks to detect analysis environments.' }
+        ]
+      },
+      {
+        id: 'detection-signatures',
+        title: 'Detection Signatures',
+        blocks: [
+          { type: 'heading', text: '03 — Detection Signatures' },
+          { type: 'paragraph', text: 'YARA Rules: Created custom YARA rules based on unique strings and code patterns identified during static analysis.' },
+          { type: 'paragraph', text: 'IOC Indicators: Documented specific file hashes, registry keys, and network indicators of compromise for detection.' },
+          { type: 'paragraph', text: 'Behavioral Signatures: Identified characteristic system modifications and process injection patterns for behavioral detection systems.' }
+        ]
+      },
+      {
+        id: 'key-lessons',
+        title: 'Key Lessons',
+        blocks: [
+          { type: 'heading', text: '04 — Key Lessons' },
+          { type: 'heading', text: 'Lesson 1: Multi-technique analysis is essential.' },
+          { type: 'paragraph', text: 'Static analysis alone missed critical runtime behaviors. Combining static, dynamic, and network analysis provided a complete picture of the malware\'s capabilities.' },
+          { type: 'heading', text: 'Lesson 2: Isolation is non-negotiable.' },
+          { type: 'paragraph', text: 'Malware analysis requires strict isolation using dedicated VMs with network segmentation to prevent accidental infection of analysis systems.' }
+        ]
+      },
+      {
+        id: 'outcome',
+        title: 'Outcome',
+        blocks: [
+          { type: 'heading', text: '05 — Outcome' },
+          { type: 'paragraph', text: 'Completed comprehensive malware analysis of Zeus banking trojan, producing detailed technical documentation, YARA detection rules, and IOC lists suitable for integration into security monitoring systems.' }
+        ]
+      },
+      {
+        id: 'repository',
+        title: 'Repository',
+        blocks: [
+          { type: 'heading', text: '06 — Repository' },
+          { type: 'paragraph', text: 'The full project is in the Malware-Analysis repository.' },
+          { type: 'paragraph', text: 'github.com/Linathimqalo/Malware-Analysis' }
         ]
       }
     ]

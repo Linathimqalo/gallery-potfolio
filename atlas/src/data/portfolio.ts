@@ -119,6 +119,14 @@ export const portfolio = {
   ],
   "projects": [
     {
+      "title": "AWS Storage Platform",
+      "category": "Cloud Engineering",
+      "description": "Four-phase AWS engineering project built in a local emulator. Progressive build: CLI fundamentals → Terraform automation → security controls → detection and incident response. Fully Terraform-managed with automated auditing, remote state, and a documented incident-response workflow.",
+      "tags": "AWS CLI, Terraform, IAM, S3",
+      "url": "https://github.com/Linathimqalo/aws-storage-platform",
+      "caseStudy": "https://the-archive-portfolio.vercel.app/projects/aws-storage-platform"
+    },
+    {
       "title": "AWS VPC Network Security",
       "category": "Cloud Engineering",
       "description": "Three-tier VPC design with defence-in-depth network controls, built in Floci and managed with Terraform. Public, private-app, and private-data tiers with routing isolation, security groups, NACLs, and VPC Flow Logs. Includes misconfiguration drill, detection engineering, and dual-path remediation.",
@@ -135,12 +143,28 @@ export const portfolio = {
       "caseStudy": "https://the-archive-portfolio.vercel.app/projects/aws-s3-secure-bucket"
     },
     {
+      "title": "Comparative Cloud Honeypot Analysis",
+      "category": "Cybersecurity",
+      "description": "Enterprise-grade honeypot system for threat intelligence and attack pattern analysis comparing GCP vs Azure deployments.",
+      "tags": "T-POT, Docker, ELK Stack, GCP",
+      "url": "https://github.com/Linathimqalo/cloud-honeypot-analysis",
+      "caseStudy": "https://the-archive-portfolio.vercel.app/projects/cloud-honeypot-analysis"
+    },
+    {
       "title": "Threat Detection Honeypot",
       "category": "Cybersecurity",
       "description": "Multi-honeypot environment on AWS EC2 using T-Pot framework to capture, analyze, and visualize real-world cyber attacks. Exposes 40+ vulnerable containers while isolating admin access.",
       "tags": "T-Pot, Docker, EC2, Elasticsearch",
       "url": "https://github.com/Linathimqalo/aws-cloud-labs/tree/main/03-honeypot",
       "caseStudy": "https://the-archive-portfolio.vercel.app/projects/aws-threat-detection-honeypot"
+    },
+    {
+      "title": "Zeus Banking Trojan",
+      "category": "Security Research",
+      "description": "Deep dive malware analysis of Zeus banking trojan using static and dynamic analysis techniques.",
+      "tags": "Malware Analysis, IDA Pro, OllyDbg, Wireshark",
+      "url": "https://github.com/Linathimqalo/Malware-Analysis",
+      "caseStudy": "https://the-archive-portfolio.vercel.app/projects/zeus-malware-analysis"
     },
     {
       "title": "IAM Access Analyzer",
