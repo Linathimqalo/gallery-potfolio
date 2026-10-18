@@ -23,6 +23,6 @@ function Index() {
       <div className="project-info"><h2><span>{project.title}</span></h2><p>{project.summary}</p><span className="mono project-tools">{project.tools.slice(0, 3).join(' / ')}</span></div>
       <span className="mono read-link">Read <span aria-hidden="true">→</span></span>
     </Link>)}</section>
-    <div className="index-end mono"><span>03 records · An ongoing body of work</span><span>Placeholder edition</span></div>
+    <div className="index-end mono"><span>10 records · An ongoing body of work</span><span>Placeholder edition</span></div>
   </main>;
 }
