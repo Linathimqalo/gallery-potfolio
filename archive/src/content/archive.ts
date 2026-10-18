@@ -30,7 +30,7 @@ export const displayDate = (date: string) => {
 export const projects: Project[] = [
   {
     slug: 'aws-storage-platform',
-    title: 'AWS Storage Platform - Progressive Cloud Engineering and Detection Case Study',
+    title: 'AWS Storage Platform',
     category: 'Cloud Engineering',
     date: '2026-10-06',
     tools: ['AWS CLI', 'Terraform', 'IAM', 'S3', 'KMS', 'Detection Engineering', 'Incident Response'],
@@ -171,8 +171,8 @@ export const projects: Project[] = [
   },
   {
     slug: 'ec2-rds-three-tier',
-    title: 'EC2 + RDS Three-Tier Architecture - Case Study',
-    category: 'Cloud Architecture',
+    title: 'EC2 + RDS Three-Tier',
+    category: 'Cloud Engineering',
     date: '2026-10-17',
     tools: ['AWS', 'EC2', 'RDS', 'Secrets Manager', 'SSM', 'Terraform', 'Python', 'Flask'],
     tags: ['Three-tier', 'VPC', 'IAM', 'Security', 'PostgreSQL'],
@@ -294,7 +294,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'cloud-honeypot-analysis',
-    title: 'Comparative Cloud Honeypot Analysis - Case Study',
+    title: 'Comparative Cloud Honeypot Analysis',
     category: 'Cybersecurity',
     date: '2026-10-10',
     tools: ['T-Pot', 'Docker', 'ELK Stack', 'GCP', 'Azure', 'Security'],
@@ -367,7 +367,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'zeus-malware-analysis',
-    title: 'Zeus Banking Trojan - Malware Analysis Case Study',
+    title: 'Zeus Banking Trojan',
     category: 'Security Research',
     date: '2026-10-15',
     tools: ['IDA Pro', 'OllyDbg', 'Wireshark', 'Virtual Machines', 'YARA Rules'],
@@ -441,8 +441,8 @@ export const projects: Project[] = [
   },
   {
     slug: 'aws-threat-detection-honeypot',
-    title: 'AWS Threat Detection & Honeypot - Case Study',
-    category: 'Security',
+    title: 'Threat Detection Honeypot',
+    category: 'Cybersecurity',
     date: '2026-10-17',
     tools: ['AWS', 'EC2', 'Docker', 'T-Pot', 'Ubuntu', 'Security Groups'],
     tags: ['Honeypot', 'Threat Intelligence', 'Security', 'Docker', 'Elasticsearch'],
@@ -560,8 +560,8 @@ export const projects: Project[] = [
   },
   {
     slug: 'aws-cloudtrail-athena-forensics',
-    title: 'AWS Centralized Logging & Forensics - Case Study',
-    category: 'Security',
+    title: 'Centralized Logging',
+    category: 'Cloud Engineering',
     date: '2026-10-17',
     tools: ['AWS', 'CloudTrail', 'S3', 'Athena', 'Glue', 'IAM', 'SNS'],
     tags: ['Logging', 'Forensics', 'SQL', 'Audit', 'Security'],
@@ -679,8 +679,8 @@ export const projects: Project[] = [
   },
   {
     slug: 'aws-serverless-pipeline',
-    title: 'Event-Driven Serverless Pipeline - Case Study',
-    category: 'Serverless',
+    title: 'Serverless Pipeline',
+    category: 'Cloud Engineering',
     date: '2026-10-17',
     tools: ['AWS', 'Lambda', 'S3', 'DynamoDB', 'Python', 'CloudWatch'],
     tags: ['Serverless', 'Lambda', 'Event-Driven', 'DynamoDB', 'IAM'],
@@ -795,8 +795,8 @@ export const projects: Project[] = [
   },
   {
     slug: 'aws-vpc-three-tier',
-    title: 'AWS Three-Tier VPC - Case Study',
-    category: 'Networking',
+    title: 'AWS VPC Network Security',
+    category: 'Cloud Engineering',
     date: '2026-10-17',
     tools: ['AWS', 'VPC', 'Terraform', 'CloudWatch'],
     tags: ['VPC', 'Networking', 'Subnets', 'Routing', 'Security'],
@@ -903,8 +903,8 @@ export const projects: Project[] = [
   },
   {
     slug: 'aws-iam-access-analyzer',
-    title: 'IAM Access Analyzer & Policy Drift - Case Study',
-    category: 'Security',
+    title: 'IAM Access Analyzer',
+    category: 'Cloud Engineering',
     date: '2026-10-17',
     tools: ['AWS', 'IAM', 'Terraform'],
     tags: ['IAM', 'Least Privilege', 'Compliance', 'Auditing'],
@@ -1012,8 +1012,8 @@ export const projects: Project[] = [
   },
   {
     slug: 'aws-s3-secure-bucket',
-    title: 'S3 Secure Bucket - Case Study',
-    category: 'Storage',
+    title: 'S3 Secure Bucket',
+    category: 'Cloud Engineering',
     date: '2026-10-17',
     tools: ['AWS', 'S3', 'KMS', 'IAM', 'Terraform'],
     tags: ['S3', 'Security', 'Encryption', 'KMS', 'Policies'],
