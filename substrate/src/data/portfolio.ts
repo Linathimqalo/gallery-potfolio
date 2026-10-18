@@ -1,6 +1,6 @@
 export const portfolio = {
   "bio": "Infrastructure and security professional with 5+ years across systems administration, cloud-hosted environments, and production incident response. Hands-on with AWS, Terraform, IAM, and security monitoring across 100+ production websites and fintech payment environments. Building cloud engineering capability and skilled in server management, threat detection, and incident response across on-premises and cloud environments. Proven in leading teams, streamlining operations, and minimizing downtime while supporting innovation.",
-  "pillars": [
+  "domains": [
     {
       "name": "Cloud",
       "description": "Building and securing cloud environments with Terraform, IAM, and S3."
@@ -21,48 +21,47 @@ export const portfolio = {
   "skills": [
     {
       "name": "Cloud & IaC",
-      "items": "AWS · Terraform · KMS · IAM · S3"
+      "skills": "AWS · Terraform · KMS · IAM · S3"
     },
     {
       "name": "SIEM & Monitoring",
-      "items": "Wazuh · Security Onion · PfSense · TPOT · PCAP Analysis · Incident Response"
+      "skills": "Wazuh · Security Onion · PfSense · TPOT · PCAP Analysis · Incident Response"
     },
     {
       "name": "Threat Detection & Response",
-      "items": "YARA Rules · CVE Exploitation · Vulnerability Scanning · Nessus · OpenVAS · Malware Analysis"
+      "skills": "YARA Rules · CVE Exploitation · Vulnerability Scanning · Nessus · OpenVAS · Malware Analysis"
     },
     {
       "name": "Penetration Testing",
-      "items": "Kali Linux · Nmap · Metasploit · Burp Suite · Enumeration · Privilege Escalation"
+      "skills": "Kali Linux · Nmap · Metasploit · Burp Suite · Enumeration · Privilege Escalation"
     },
     {
       "name": "Security Tools",
-      "items": "Firewall Config · VPNs (Fortinet, SoftEther) · Server Hardening · DAC · SSL/TLS"
+      "skills": "Firewall Config · VPNs (Fortinet, SoftEther) · Server Hardening · DAC · SSL/TLS"
     },
     {
       "name": "OS & Servers",
-      "items": "Windows Server 2022 · Ubuntu · Active Directory · MacOS"
+      "skills": "Windows Server 2022 · Ubuntu · Active Directory · MacOS"
     },
     {
       "name": "Cloud & Virtualization",
-      "items": "VMware · VirtualBox · Azure · GCP · Cloudflare"
+      "skills": "VMware · VirtualBox · Azure · GCP · Cloudflare"
     },
     {
       "name": "Development & Tools",
-      "items": "HTML · CSS · JavaScript · Python · Node.js · React · C# · Git · GitHub · WordPress · Plesk · cPanel · Vercel · MySQL · MongoDB · REST APIs"
+      "skills": "HTML · CSS · JavaScript · Python · Node.js · React · C# · Git · GitHub · WordPress · Plesk · cPanel · Vercel · MySQL · MongoDB · REST APIs"
     },
     {
       "name": "Networking & Infrastructure",
-      "items": "DNS · DHCP · VLANs · TCP/IP · Router/Switch Config · Backup & Recovery · Imaging · DR Planning"
+      "skills": "DNS · DHCP · VLANs · TCP/IP · Router/Switch Config · Backup & Recovery · Imaging · DR Planning"
     }
   ],
-  "roles": [
+  "experience": [
     {
       "title": "Technical Support Specialist",
       "company": "Figment Design Labs",
       "dates": "April 2026 – Present",
       "location": "Johannesburg, South Africa",
-      "year": "2026",
       "bullets": [
         "Provide first- and second-line technical support for payment and fintech systems, investigating system, connectivity, transaction, and application issues in production.",
         "Monitor system and site availability, identify incidents, and coordinate escalation to internal and external teams through to resolution.",
@@ -75,7 +74,6 @@ export const portfolio = {
       "company": "BeMySocial",
       "dates": "Feb 2024 – March 2026",
       "location": "Remote, United Kingdom",
-      "year": "2024",
       "bullets": [
         "Managed infrastructure for 100+ production client websites with 99.9% uptime.",
         "Implemented WAF, firewall, and email security controls, reducing security incidents by 75%.",
@@ -87,7 +85,6 @@ export const portfolio = {
       "company": "IT Solutions",
       "dates": "Apr 2023 – Jan 2024",
       "location": "Grahamstown, South Africa",
-      "year": "2023",
       "bullets": [
         "Provided technical support for 200+ end-users across multiple departments",
         "Configured and maintained network infrastructure and security systems",
@@ -100,7 +97,6 @@ export const portfolio = {
       "company": "Independent",
       "dates": "2021 – 2022",
       "location": "Remote",
-      "year": "2021",
       "bullets": [
         "Developed 15+ responsive websites for small businesses and startups",
         "Specialized in modern web technologies and user experience design",
@@ -113,7 +109,6 @@ export const portfolio = {
       "company": "Damelin",
       "dates": "2020",
       "location": "East London, South Africa",
-      "year": "2020",
       "bullets": [
         "Assisted in network administration and maintenance for educational facility",
         "Gained hands-on experience with enterprise networking equipment",
