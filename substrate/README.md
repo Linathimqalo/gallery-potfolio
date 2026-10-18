@@ -1,16 +1,15 @@
-# Linathis Showcase
+# Substrate
 
-The content, do not focus on the design or anything else. Only the wording and content information. It is based on this: https://linathimqalo-portfolio.vercel.app/
-
-
+A single-page portfolio showcasing Linathi Mqalo's technical work with reveal animations.
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+npm install
 npm run dev
+npm run build
 ```
+
+## Deployment
+
+This project is deployed on Vercel.
