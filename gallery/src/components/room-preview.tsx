@@ -11,21 +11,13 @@ export function RoomPreview({ name, previewUrl, fallbackImage, fallbackReady }: 
   const [frameFailed, setFrameFailed] = useState(false);
   const [imageFailed, setImageFailed] = useState(false);
   const [iframeSrc, setIframeSrc] = useState<string>("about:blank");
-  const [isMobile, setIsMobile] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const showFrame = Boolean(previewUrl) && !frameFailed && !isMobile;
+  const showFrame = Boolean(previewUrl) && !frameFailed && isVisible;
   const showImage = !showFrame && fallbackReady && !imageFailed;
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.matchMedia('(max-width: 768px)').matches);
-    checkMobile();
-    const mediaQuery = window.matchMedia('(max-width: 768px)');
-    mediaQuery.addEventListener('change', checkMobile);
-    return () => mediaQuery.removeEventListener('change', checkMobile);
-  }, []);
-
-  useEffect(() => {
-    if (!showFrame || !containerRef.current) return;
+    if (!containerRef.current) return;
 
     const container = containerRef.current;
     let observer: IntersectionObserver | undefined;
@@ -33,8 +25,10 @@ export function RoomPreview({ name, previewUrl, fallbackImage, fallbackReady }: 
     const handleIntersect = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
+          setIsVisible(true);
           setIframeSrc(previewUrl);
         } else {
+          setIsVisible(false);
           setIframeSrc("about:blank");
         }
       });
@@ -42,7 +36,7 @@ export function RoomPreview({ name, previewUrl, fallbackImage, fallbackReady }: 
 
     observer = new IntersectionObserver(handleIntersect, {
       threshold: 0.1,
-      rootMargin: "50px",
+      rootMargin: "200px",
     });
 
     observer.observe(container);
@@ -51,16 +45,12 @@ export function RoomPreview({ name, previewUrl, fallbackImage, fallbackReady }: 
       observer?.disconnect();
       setIframeSrc("about:blank");
     };
-  }, [previewUrl, showFrame]);
+  }, [previewUrl]);
 
   return (
     <div className="preview-frame" aria-hidden="true" ref={containerRef}>
       <span className="reading-bracket bracket-top" />
-      {isMobile ? (
-        <div className="preview-placeholder">
-          <span className="preview-name">{name}</span>
-        </div>
-      ) : showFrame ? (
+      {showFrame ? (
         <iframe
           src={iframeSrc}
           title={`${name} portfolio preview`}
