@@ -74,11 +74,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "SUBSTRATE — Linathi Mqalo" },
-      { name: "description", content: "Linathi Mqalo — Cloud, Infrastructure, Security, Systems." },
+      { title: "SUBSTRATE - Linathi Mqalo" },
+      { name: "description", content: "Linathi Mqalo - Cloud, Infrastructure, Security, Systems." },
       { name: "author", content: "Linathi Mqalo" },
-      { property: "og:title", content: "SUBSTRATE — Linathi Mqalo" },
-      { property: "og:description", content: "Linathi Mqalo — Cloud, Infrastructure, Security, Systems." },
+      { property: "og:title", content: "SUBSTRATE - Linathi Mqalo" },
+      { property: "og:description", content: "Linathi Mqalo - Cloud, Infrastructure, Security, Systems." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
 

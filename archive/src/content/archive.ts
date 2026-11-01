@@ -15,7 +15,7 @@ export interface Project {
 export const profile = {
   name: 'Linathi Mqalo',
   tagline: 'Technical work. Documented.',
-  bio: 'The Archive is the source material behind three interpretations of the same work: Atlas, Obsidian, and Substrate. This is where the actual projects live — their context, implementation, and reasoning.',
+  bio: 'The Archive is the source material behind three interpretations of the same work: Atlas, Obsidian, and Substrate. This is where the actual projects live - their context, implementation, and reasoning.',
 };
 export const portfolios = [
   { name: 'Atlas', label: 'A spatial interpretation', url: 'https://the-atlas-portfolio.vercel.app' },
@@ -183,7 +183,7 @@ export const projects: Project[] = [
         id: 'architecture',
         title: 'Architecture',
         blocks: [
-          { type: 'heading', text: '01 — Architecture' },
+          { type: 'heading', text: '01 - Architecture' },
           { type: 'paragraph', text: 'Web Tier: EC2 instance (t3.micro) in a public subnet, running nginx as a reverse proxy to Flask.' },
           { type: 'paragraph', text: 'Data Tier: RDS PostgreSQL in a private data subnet. No internet gateway route.' },
           { type: 'paragraph', text: 'Secrets: AWS Secrets Manager stores the generated database password.' },
@@ -194,7 +194,7 @@ export const projects: Project[] = [
         id: 'security-design',
         title: 'Security Design Decisions',
         blocks: [
-          { type: 'heading', text: '02 — Security Design Decisions' },
+          { type: 'heading', text: '02 - Security Design Decisions' },
           { type: 'heading', text: 'Decision 1: Security Group Chaining for the Database' },
           { type: 'paragraph', text: 'The RDS database security group does not allow inbound traffic based on CIDR blocks (e.g., 10.0.0.0/16). Instead, it allows inbound port 5432 exclusively from the EC2 application security group ID (security_groups = [aws_security_group.app_sg.id]). This is an identity-based rule. Even if a new server is launched in the public subnet, it cannot talk to the database unless it has the specific app-sg attached.' },
           { type: 'heading', text: 'Decision 2: No SSH Keys, Use SSM' },
@@ -207,7 +207,7 @@ export const projects: Project[] = [
         id: 'misconfiguration-drill',
         title: 'The Misconfiguration Drill',
         blocks: [
-          { type: 'heading', text: '03 — The Misconfiguration Drill' },
+          { type: 'heading', text: '03 - The Misconfiguration Drill' },
           { type: 'callout', label: 'Note', text: 'In this project, the misconfiguration was a race condition during deployment.' },
           { type: 'heading', text: 'Break 1: The Race Condition' },
           { type: 'paragraph', text: 'During the initial deployment, the EC2 user_data script attempted to fetch the secret before the RDS database had finished provisioning and before Terraform had written the secret to Secrets Manager.' },
@@ -223,7 +223,7 @@ export const projects: Project[] = [
         id: 'detection-engineering',
         title: 'Detection Engineering',
         blocks: [
-          { type: 'heading', text: '04 — Detection Engineering' },
+          { type: 'heading', text: '04 - Detection Engineering' },
           { type: 'paragraph', text: 'While this project didn\'t include a custom bash script, detection was handled via:' },
           { type: 'paragraph', text: 'AWS Config / Terraform: Drift detection ensures the security groups remain exactly as coded.' },
           { type: 'paragraph', text: 'RDS Configuration: publicly_accessible = false was explicitly set in Terraform to prevent any accidental public IP assignment.' },
@@ -234,7 +234,7 @@ export const projects: Project[] = [
         id: 'remediation',
         title: 'Remediation',
         blocks: [
-          { type: 'heading', text: '05 — Remediation' },
+          { type: 'heading', text: '05 - Remediation' },
           { type: 'paragraph', text: 'Remediation in this project was heavily focused on the Terraform lifecycle.' },
           { type: 'paragraph', text: 'Containment: Destroyed the broken EC2 instance.' },
           { type: 'paragraph', text: 'Reconciliation: Ran terraform apply to restore declarative state.' },
@@ -245,7 +245,7 @@ export const projects: Project[] = [
         id: 'verification',
         title: 'Verification',
         blocks: [
-          { type: 'heading', text: '06 — Verification' },
+          { type: 'heading', text: '06 - Verification' },
           { type: 'paragraph', text: 'curl http://<ec2-ip> returned the expected JSON success message.' },
           { type: 'paragraph', text: 'nc -zv <rds-endpoint> 5432 from a local machine timed out, proving the DB was not publicly accessible.' },
           { type: 'paragraph', text: 'SSM Session Manager successfully connected and allowed execution of psql commands.' }
@@ -255,7 +255,7 @@ export const projects: Project[] = [
         id: 'key-lessons',
         title: 'Key Lessons',
         blocks: [
-          { type: 'heading', text: '07 — Key Lessons' },
+          { type: 'heading', text: '07 - Key Lessons' },
           { type: 'heading', text: 'Lesson 1: user_data is a one-time execution.' },
           { type: 'paragraph', text: 'Changing user_data in Terraform updates the metadata, but it does not trigger a reboot or re-run. To test changes, you must force instance replacement (-replace).' },
           { type: 'heading', text: 'Lesson 2: depends_on is critical for legacy infrastructure.' },
@@ -268,7 +268,7 @@ export const projects: Project[] = [
         id: 'what-id-do-differently',
         title: 'What I\'d Do Differently',
         blocks: [
-          { type: 'heading', text: '08 — What I\'d Do Differently' },
+          { type: 'heading', text: '08 - What I\'d Do Differently' },
           { type: 'paragraph', text: 'Add an Application Load Balancer (ALB). While the public EC2 instance works, a production setup would place the EC2 in a private subnet and route traffic through an ALB.' },
           { type: 'paragraph', text: 'Use a Parameter Store instead of Secrets Manager for cheaper environments, though Secrets Manager is better for rotation.' }
         ]
@@ -277,7 +277,7 @@ export const projects: Project[] = [
         id: 'outcome',
         title: 'Outcome',
         blocks: [
-          { type: 'heading', text: '09 — Outcome' },
+          { type: 'heading', text: '09 - Outcome' },
           { type: 'paragraph', text: 'A fully functional, secure three-tier application deployed entirely via Terraform. The database is completely isolated, credentials are dynamically retrieved, and administrative access is securely audited via SSM. Cost: ~$0.10 for the duration of the lab.' }
         ]
       },
@@ -285,7 +285,7 @@ export const projects: Project[] = [
         id: 'repository',
         title: 'Repository',
         blocks: [
-          { type: 'heading', text: '10 — Repository' },
+          { type: 'heading', text: '10 - Repository' },
           { type: 'paragraph', text: 'The full project is in the 06-ec2-rds-three-tier/ folder of the aws-cloud-labs repository.' },
           { type: 'paragraph', text: 'github.com/Linathimqalo/aws-cloud-labs' }
         ]
@@ -306,7 +306,7 @@ export const projects: Project[] = [
         id: 'architecture',
         title: 'Architecture',
         blocks: [
-          { type: 'heading', text: '01 — Architecture' },
+          { type: 'heading', text: '01 - Architecture' },
           { type: 'paragraph', text: 'Compute: e2-standard-2 (GCP), Standard D2s_v3 (Azure), m7i-flex.large (AWS). All running Ubuntu 24.04 with 8GB RAM.' },
           { type: 'paragraph', text: 'Containers: 41 Docker containers managed by the T-Pot framework per instance.' },
           { type: 'paragraph', text: 'Storage: Cloud-native persistent disks for logs and Elasticsearch indices.' },
@@ -317,7 +317,7 @@ export const projects: Project[] = [
         id: 'comparative-analysis',
         title: 'Comparative Analysis',
         blocks: [
-          { type: 'heading', text: '02 — Comparative Analysis' },
+          { type: 'heading', text: '02 - Comparative Analysis' },
           { type: 'table', headers: ['Cloud', 'Instance Type', 'Cost/Day', 'Total Cost', 'Uptime', 'Key Stability Issue'], rows: [
             ['GCP', 'e2-standard-2', '~$1.78', '~$24.92 (14d)', '14 Days', 'Frequent Kibana slowdowns, daily restarts required.'],
             ['Azure', 'Standard D2s_v3', '~$2.67', '~$37.38 (14d)', '14 Days', 'HTTP 504/502 errors; required VM reboots.'],
@@ -329,7 +329,7 @@ export const projects: Project[] = [
         id: 'attack-volume',
         title: 'Attack Volume & Threat Intelligence',
         blocks: [
-          { type: 'heading', text: '03 — Attack Volume & Threat Intelligence' },
+          { type: 'heading', text: '03 - Attack Volume & Threat Intelligence' },
           { type: 'table', headers: ['Cloud', 'Total Attacks', 'Top Source Country', 'Top Targeted Port', 'Top Honeypot'], rows: [
             ['GCP', '285,000+ (14d)', 'United States', '5060, 22, 443', 'Honeytrap (96k)'],
             ['Azure', '156,000+ (14d)', 'United States', '22, 6379, 1080', 'Honeytrap (73k)'],
@@ -343,7 +343,7 @@ export const projects: Project[] = [
         id: 'detection-engineering',
         title: 'Detection Engineering',
         blocks: [
-          { type: 'heading', text: '04 — Detection Engineering' },
+          { type: 'heading', text: '04 - Detection Engineering' },
           { type: 'paragraph', text: 'The T-Pot platform provides comprehensive detection capabilities across all three clouds:' },
           { type: 'list', items: ['Suricata: Inspects network traffic for known exploit signatures (CVEs).', 'Cowrie: Emulates an SSH server, logging every username and password attempted.', 'Dionaea: Emulates Windows SMB/MSSQL vulnerabilities to capture malware payloads.', 'Sentrypeer: Captures SIP/VoIP scanning attempts (dominant on AWS).'] }
         ]
@@ -352,7 +352,7 @@ export const projects: Project[] = [
         id: 'key-lessons',
         title: 'Key Lessons',
         blocks: [
-          { type: 'heading', text: '05 — Key Lessons' },
+          { type: 'heading', text: '05 - Key Lessons' },
           { type: 'heading', text: 'Lesson 1: Cloud provider IP blocks attract different attack volumes.' },
           { type: 'paragraph', text: 'AWS captured 662,000 attacks in 17 days (~39k/day), while GCP captured 285,000 in 14 days (~20k/day) and Azure captured 156,000 (~11k/day). The specific IP block allocated by AWS was likely already in an active scanner list, resulting in higher volume.' },
           { type: 'heading', text: 'Lesson 2: Operational stability is not equal across clouds.' },
@@ -365,7 +365,7 @@ export const projects: Project[] = [
         id: 'outcome',
         title: 'Outcome',
         blocks: [
-          { type: 'heading', text: '06 — Outcome' },
+          { type: 'heading', text: '06 - Outcome' },
           { type: 'paragraph', text: 'Successfully deployed comparative honeypot infrastructure across three major cloud providers, capturing over 1.1 million combined attacks. This project demonstrated the ability to build complex, multi-container security infrastructure across different cloud platforms, collect and analyze threat intelligence at scale, and evaluate cost-to-value ratios for cloud-based security operations.' }
         ]
       },
@@ -373,7 +373,7 @@ export const projects: Project[] = [
         id: 'repository',
         title: 'Repository',
         blocks: [
-          { type: 'heading', text: '07 — Repository' },
+          { type: 'heading', text: '07 - Repository' },
           { type: 'paragraph', text: 'The AWS deployment is in the 03-honeypot/ folder of the aws-cloud-labs repository.' },
           { type: 'paragraph', text: 'github.com/Linathimqalo/aws-cloud-labs' },
           { type: 'paragraph', text: 'The original GCP and Azure comparison is in the cloud-honeypot-analysis repository.' },
@@ -396,7 +396,7 @@ export const projects: Project[] = [
         id: 'analysis-methodology',
         title: 'Analysis Methodology',
         blocks: [
-          { type: 'heading', text: '01 — Analysis Methodology' },
+          { type: 'heading', text: '01 - Analysis Methodology' },
           { type: 'paragraph', text: 'Static Analysis: Disassembly and reverse engineering using IDA Pro to understand the malware\'s code structure and functionality.' },
           { type: 'paragraph', text: 'Dynamic Analysis: Debugging with OllyDbg to observe runtime behavior and trace execution flow.' },
           { type: 'paragraph', text: 'Network Analysis: Wireshark packet capture to identify C2 communication and data exfiltration.' },
@@ -407,7 +407,7 @@ export const projects: Project[] = [
         id: 'key-findings',
         title: 'Key Findings',
         blocks: [
-          { type: 'heading', text: '02 — Key Findings' },
+          { type: 'heading', text: '02 - Key Findings' },
           { type: 'heading', text: 'C2 Communication' },
           { type: 'paragraph', text: 'The malware uses encrypted HTTP/HTTPS communications with hardcoded C2 servers. Command-and-control packets use RC4 encryption with custom obfuscation to evade detection.' },
           { type: 'heading', text: 'Data Exfiltration' },
@@ -420,7 +420,7 @@ export const projects: Project[] = [
         id: 'detection-signatures',
         title: 'Detection Signatures',
         blocks: [
-          { type: 'heading', text: '03 — Detection Signatures' },
+          { type: 'heading', text: '03 - Detection Signatures' },
           { type: 'paragraph', text: 'YARA Rules: Created custom YARA rules based on unique strings and code patterns identified during static analysis.' },
           { type: 'paragraph', text: 'IOC Indicators: Documented specific file hashes, registry keys, and network indicators of compromise for detection.' },
           { type: 'paragraph', text: 'Behavioral Signatures: Identified characteristic system modifications and process injection patterns for behavioral detection systems.' }
@@ -430,7 +430,7 @@ export const projects: Project[] = [
         id: 'key-lessons',
         title: 'Key Lessons',
         blocks: [
-          { type: 'heading', text: '04 — Key Lessons' },
+          { type: 'heading', text: '04 - Key Lessons' },
           { type: 'heading', text: 'Lesson 1: Multi-technique analysis is essential.' },
           { type: 'paragraph', text: 'Static analysis alone missed critical runtime behaviors. Combining static, dynamic, and network analysis provided a complete picture of the malware\'s capabilities.' },
           { type: 'heading', text: 'Lesson 2: Isolation is non-negotiable.' },
@@ -441,7 +441,7 @@ export const projects: Project[] = [
         id: 'outcome',
         title: 'Outcome',
         blocks: [
-          { type: 'heading', text: '05 — Outcome' },
+          { type: 'heading', text: '05 - Outcome' },
           { type: 'paragraph', text: 'Completed comprehensive malware analysis of Zeus banking trojan, producing detailed technical documentation, YARA detection rules, and IOC lists suitable for integration into security monitoring systems.' }
         ]
       },
@@ -449,7 +449,7 @@ export const projects: Project[] = [
         id: 'repository',
         title: 'Repository',
         blocks: [
-          { type: 'heading', text: '06 — Repository' },
+          { type: 'heading', text: '06 - Repository' },
           { type: 'paragraph', text: 'The full project is in the Malware-Analysis repository.' },
           { type: 'paragraph', text: 'github.com/Linathimqalo/Malware-Analysis' }
         ]
@@ -470,7 +470,7 @@ export const projects: Project[] = [
         id: 'architecture',
         title: 'Architecture',
         blocks: [
-          { type: 'heading', text: '01 — Architecture' },
+          { type: 'heading', text: '01 - Architecture' },
           { type: 'paragraph', text: 'Compute: EC2 m7i-flex.large (2 vCPU, 8GB RAM) running Ubuntu 24.04.' },
           { type: 'paragraph', text: 'Containers: 41 Docker containers managed by the T-Pot framework.' },
           { type: 'paragraph', text: 'Storage: 40GB gp3 EBS volume for logs and Elasticsearch indices.' },
@@ -481,7 +481,7 @@ export const projects: Project[] = [
         id: 'security-design',
         title: 'Security Design Decisions',
         blocks: [
-          { type: 'heading', text: '02 — Security Design Decisions' },
+          { type: 'heading', text: '02 - Security Design Decisions' },
           { type: 'heading', text: 'Decision 1: Separation of Attack Surface and Admin Plane' },
           { type: 'paragraph', text: 'The security group allows inbound traffic from 0.0.0.0/0 on ports 1–64293 to capture attacks. However, ports 64294–64300 (which include SSH, Cockpit, and the Kibana web interface) are strictly locked down to the administrator\'s public IP (/32 CIDR). This prevents attackers from pivoting from the honeypot data plane into the management plane.' },
           { type: 'heading', text: 'Decision 2: Minimal IAM Role' },
@@ -494,7 +494,7 @@ export const projects: Project[] = [
         id: 'misconfiguration-drill',
         title: 'The Misconfiguration Drill',
         blocks: [
-          { type: 'heading', text: '03 — The Misconfiguration Drill' },
+          { type: 'heading', text: '03 - The Misconfiguration Drill' },
           { type: 'heading', text: 'Break 1: The T-Pot OS Compatibility' },
           { type: 'paragraph', text: 'T-Pot\'s upstream installer requires Ubuntu 26.04, but the latest available AWS AMI is 24.04. The installer failed immediately with a version mismatch.' },
           { type: 'paragraph', text: 'Remediation: Patched the install.sh script and the Ansible playbook (tpot.yml) to accept the version string "24.04" instead of "26.04". The Docker containers ran perfectly without modification.' },
@@ -507,7 +507,7 @@ export const projects: Project[] = [
         id: 'detection-engineering',
         title: 'Detection Engineering',
         blocks: [
-          { type: 'heading', text: '04 — Detection Engineering' },
+          { type: 'heading', text: '04 - Detection Engineering' },
           { type: 'paragraph', text: 'The T-Pot platform inherently is the detection engineering tool.' },
           { type: 'list', items: ['Suricata: Inspects network traffic for known exploit signatures.', 'Cowrie: Emulates an SSH server, logging every username and password attempted.', 'Dionaea: Emulates Windows SMB/MSSQL vulnerabilities to capture malware payloads.'] },
           { type: 'heading', text: 'Detection Outcome (17 Days)' },
@@ -518,7 +518,7 @@ export const projects: Project[] = [
         id: 'remediation',
         title: 'Remediation',
         blocks: [
-          { type: 'heading', text: '05 — Remediation' },
+          { type: 'heading', text: '05 - Remediation' },
           { type: 'paragraph', text: 'No external threat remediation was needed (the attacks were the point). Internal system remediation consisted of ensuring Docker containers remained healthy and logs were not lost.' }
         ]
       },
@@ -526,7 +526,7 @@ export const projects: Project[] = [
         id: 'verification',
         title: 'Verification',
         blocks: [
-          { type: 'heading', text: '06 — Verification' },
+          { type: 'heading', text: '06 - Verification' },
           { type: 'list', items: ['Confirmed 41 Docker containers running via docker ps | wc -l.', 'Verified Kibana dashboard was accessible at https://<ip>:64297 via the admin IP.', 'Validated that attack traffic was populating Elasticsearch indices in real-time.', 'Analyzed the multi-cloud comparison data (GCP, Azure, AWS).'] }
         ]
       },
@@ -534,7 +534,7 @@ export const projects: Project[] = [
         id: 'key-lessons',
         title: 'Key Lessons',
         blocks: [
-          { type: 'heading', text: '07 — Key Lessons' },
+          { type: 'heading', text: '07 - Key Lessons' },
           { type: 'heading', text: 'Lesson 1: Cloud services are scanned instantly.' },
           { type: 'paragraph', text: 'The moment the EC2 instance received a public IP, automated SSH brute-force attempts began. There is no "grace period" on the internet.' },
           { type: 'heading', text: 'Lesson 2: Memory is the silent bottleneck.' },
@@ -547,7 +547,7 @@ export const projects: Project[] = [
         id: 'what-id-do-differently',
         title: 'What I\'d Do Differently',
         blocks: [
-          { type: 'heading', text: '08 — What I\'d Do Differently' },
+          { type: 'heading', text: '08 - What I\'d Do Differently' },
           { type: 'list', items: ['Use a managed logging pipeline. Instead of relying on local Elasticsearch, I would route the honeypot logs to CloudWatch or an external SIEM (like Splunk or Microsoft Sentinel) to decouple storage from compute.', 'Automate teardown. Honeypots are expensive to run 24/7. A scheduled Lambda function that destroys the CloudFormation/Terraform stack after 7 days would prevent bill shock.'] }
         ]
       },
@@ -555,7 +555,7 @@ export const projects: Project[] = [
         id: 'outcome',
         title: 'Outcome',
         blocks: [
-          { type: 'heading', text: '09 — Outcome' },
+          { type: 'heading', text: '09 - Outcome' },
           { type: 'paragraph', text: 'Successfully deployed a high-interaction honeypot on AWS. Captured, parsed, and visualized 662,000+ real-world attacks over 17 days, proving the ability to build complex, multi-container security infrastructure with strict network isolation. The total cost for the entire 17-day run was $39.94, well within the AWS credit budget. The infrastructure was destroyed via Terraform to prevent ongoing charges, with all logs and dashboards saved for analysis.' }
         ]
       },
@@ -563,7 +563,7 @@ export const projects: Project[] = [
         id: 'repository',
         title: 'Repository',
         blocks: [
-          { type: 'heading', text: '10 — Repository' },
+          { type: 'heading', text: '10 - Repository' },
           { type: 'paragraph', text: 'The full project is in the 03-honeypot/ folder of the aws-cloud-labs repository.' },
           { type: 'paragraph', text: 'github.com/Linathimqalo/aws-cloud-labs' }
         ]
@@ -584,7 +584,7 @@ export const projects: Project[] = [
         id: 'architecture',
         title: 'Architecture',
         blocks: [
-          { type: 'heading', text: '01 — Architecture' },
+          { type: 'heading', text: '01 - Architecture' },
           { type: 'paragraph', text: 'Log Source: CloudTrail (Multi-Region) generating JSON logs.' },
           { type: 'paragraph', text: 'Storage: S3 bucket with Block Public Access, bucket policies restricting access, and log integrity validation enabled.' },
           { type: 'paragraph', text: 'Query Engine: AWS Glue (Data Catalog) defining the table schema, and Amazon Athena (Workgroup) running SQL queries directly against S3.' },
@@ -595,7 +595,7 @@ export const projects: Project[] = [
         id: 'security-design',
         title: 'Security Design Decisions',
         blocks: [
-          { type: 'heading', text: '02 — Security Design Decisions' },
+          { type: 'heading', text: '02 - Security Design Decisions' },
           { type: 'heading', text: 'Decision 1: Log File Validation' },
           { type: 'paragraph', text: 'CloudTrail was configured with enable_log_file_validation = true. This creates a digest file for every log file, allowing an investigator to cryptographically prove that the logs have not been tampered with or deleted by an attacker.' },
           { type: 'heading', text: 'Decision 2: Partition Projection over Crawlers' },
@@ -608,7 +608,7 @@ export const projects: Project[] = [
         id: 'misconfiguration-drill',
         title: 'The Misconfiguration Drill',
         blocks: [
-          { type: 'heading', text: '03 — The Misconfiguration Drill' },
+          { type: 'heading', text: '03 - The Misconfiguration Drill' },
           { type: 'callout', label: 'Note', text: 'The challenge here was Terraform state management and API limits.' },
           { type: 'heading', text: 'Break 1: The GuardDuty API Block' },
           { type: 'paragraph', text: 'Attempted to deploy Amazon GuardDuty via Terraform, but the API rejected the request with SubscriptionRequiredException.' },
@@ -624,7 +624,7 @@ export const projects: Project[] = [
         id: 'detection-engineering',
         title: 'Detection Engineering',
         blocks: [
-          { type: 'heading', text: '04 — Detection Engineering' },
+          { type: 'heading', text: '04 - Detection Engineering' },
           { type: 'paragraph', text: 'The core detection capability here is Forensic SQL.' },
           { type: 'code', language: 'sql', code: 'SELECT eventname, sourceipaddress, useridentity.username, eventtime FROM cloudtrail_logs WHERE eventname = \'DeleteBucket\' LIMIT 10;' },
           { type: 'paragraph', text: 'This allows a Cloud Security Engineer to rapidly trace an incident: Who deleted the bucket? From what IP? At what time?' }
@@ -634,7 +634,7 @@ export const projects: Project[] = [
         id: 'remediation',
         title: 'Remediation',
         blocks: [
-          { type: 'heading', text: '05 — Remediation' },
+          { type: 'heading', text: '05 - Remediation' },
           { type: 'paragraph', text: 'When an incident occurs, this pipeline is the first step in remediation. By querying Athena, you can identify the compromised IAM key or the malicious IP address. You would then use the CLI to revoke the IAM key or update the WAF to block the IP.' }
         ]
       },
@@ -642,7 +642,7 @@ export const projects: Project[] = [
         id: 'verification',
         title: 'Verification',
         blocks: [
-          { type: 'heading', text: '06 — Verification' },
+          { type: 'heading', text: '06 - Verification' },
           { type: 'paragraph', text: 'Successfully queried 47.89 KB of CloudTrail logs in 1.3 seconds.' },
           { type: 'paragraph', text: 'Confirmed Athena returned 10 rows of actual AWS API activity.' },
           { type: 'paragraph', text: 'Verified CloudTrail was actively writing .json.gz files to the S3 bucket.' }
@@ -652,7 +652,7 @@ export const projects: Project[] = [
         id: 'key-lessons',
         title: 'Key Lessons',
         blocks: [
-          { type: 'heading', text: '07 — Key Lessons' },
+          { type: 'heading', text: '07 - Key Lessons' },
           { type: 'heading', text: 'Lesson 1: Free Plan limitations exist.' },
           { type: 'paragraph', text: 'Not all AWS services can be automated immediately on a new account. Manual activation is sometimes required before Terraform can manage them.' },
           { type: 'heading', text: 'Lesson 2: Partition projection beats Crawlers for cost.' },
@@ -665,7 +665,7 @@ export const projects: Project[] = [
         id: 'what-id-do-differently',
         title: 'What I\'d Do Differently',
         blocks: [
-          { type: 'heading', text: '08 — What I\'d Do Differently' },
+          { type: 'heading', text: '08 - What I\'d Do Differently' },
           { type: 'paragraph', text: 'Enable GuardDuty manually first. Next time, I would enable GuardDuty in the console immediately after account creation, then import it into Terraform.' },
           { type: 'paragraph', text: 'Convert logs to Parquet. JSON is slow and expensive to query. In a production environment, I would use a Lambda function to convert CloudTrail JSON to Parquet format in S3, which speeds up Athena queries by 10x and reduces cost.' }
         ]
@@ -674,7 +674,7 @@ export const projects: Project[] = [
         id: 'outcome',
         title: 'Outcome',
         blocks: [
-          { type: 'heading', text: '09 — Outcome' },
+          { type: 'heading', text: '09 - Outcome' },
           { type: 'paragraph', text: 'Built a permanent, serverless forensic query tool. The project demonstrates the ability to design a multi-service security pipeline (CloudTrail, S3, Glue, Athena) and write complex IAM and S3 bucket policies to secure the logs. Cost: ~$0.10.' }
         ]
       },
@@ -682,7 +682,7 @@ export const projects: Project[] = [
         id: 'repository',
         title: 'Repository',
         blocks: [
-          { type: 'heading', text: '10 — Repository' },
+          { type: 'heading', text: '10 - Repository' },
           { type: 'paragraph', text: 'The full project is in the 07-monitoring-detection/ and 08-athena-cloudtrail/ folders of the aws-cloud-labs repository.' },
           { type: 'paragraph', text: 'github.com/Linathimqalo/aws-cloud-labs' }
         ]
@@ -703,7 +703,7 @@ export const projects: Project[] = [
         id: 'architecture',
         title: 'Architecture',
         blocks: [
-          { type: 'heading', text: '01 — Architecture' },
+          { type: 'heading', text: '01 - Architecture' },
           { type: 'paragraph', text: 'Ingestion: S3 bucket (blocked public access, versioning enabled).' },
           { type: 'paragraph', text: 'Compute: AWS Lambda (Python 3.12) triggered by S3 ObjectCreated events.' },
           { type: 'paragraph', text: 'Storage: Amazon DynamoDB (On-Demand billing) storing file metadata (Key, Size, SHA-256, Timestamp).' },
@@ -714,7 +714,7 @@ export const projects: Project[] = [
         id: 'security-design',
         title: 'Security Design Decisions',
         blocks: [
-          { type: 'heading', text: '02 — Security Design Decisions' },
+          { type: 'heading', text: '02 - Security Design Decisions' },
           { type: 'heading', text: 'Decision 1: Least-Privilege Execution Role' },
           { type: 'paragraph', text: 'The Lambda function was granted an IAM role with explicit, scoped permissions:' },
           { type: 'list', items: ['s3:GetObject on the specific bucket ARN.', 'dynamodb:PutItem on the specific table ARN.', 'logs:CreateLogStream and logs:PutLogEvents on the specific CloudWatch Log Group.'] },
@@ -729,7 +729,7 @@ export const projects: Project[] = [
         id: 'misconfiguration-drill',
         title: 'The Misconfiguration Drill',
         blocks: [
-          { type: 'heading', text: '03 — The Misconfiguration Drill' },
+          { type: 'heading', text: '03 - The Misconfiguration Drill' },
           { type: 'callout', label: 'Note', text: 'The challenge here was navigating AWS account concurrency limits.' },
           { type: 'heading', text: 'Break 1: The Reserved Concurrency Limit' },
           { type: 'paragraph', text: 'Attempted to set reserved_concurrent_executions = 5 to cap costs. The deployment failed with InvalidParameterCombination.' },
@@ -741,7 +741,7 @@ export const projects: Project[] = [
         id: 'detection-engineering',
         title: 'Detection Engineering',
         blocks: [
-          { type: 'heading', text: '04 — Detection Engineering' },
+          { type: 'heading', text: '04 - Detection Engineering' },
           { type: 'paragraph', text: 'The pipeline inherently generates forensic data. The SHA-256 hash written to DynamoDB acts as an integrity check. In a security context, if a file on the S3 bucket is altered, its hash will no longer match the hash stored in DynamoDB, triggering an alert in downstream systems.' }
         ]
       },
@@ -749,7 +749,7 @@ export const projects: Project[] = [
         id: 'remediation',
         title: 'Remediation',
         blocks: [
-          { type: 'heading', text: '05 — Remediation' },
+          { type: 'heading', text: '05 - Remediation' },
           { type: 'paragraph', text: 'No external threats were present in this lab. Remediation focused on resolving the Terraform state issues.' }
         ]
       },
@@ -757,7 +757,7 @@ export const projects: Project[] = [
         id: 'verification',
         title: 'Verification',
         blocks: [
-          { type: 'heading', text: '06 — Verification' },
+          { type: 'heading', text: '06 - Verification' },
           { type: 'paragraph', text: 'Uploaded a test file (test-upload.txt) to S3.' },
           { type: 'paragraph', text: 'Verified the Lambda triggered automatically within 5 seconds.' },
           { type: 'paragraph', text: 'Queried DynamoDB and confirmed the SHA-256 hash matched the local sha256sum output exactly.' },
@@ -768,7 +768,7 @@ export const projects: Project[] = [
         id: 'key-lessons',
         title: 'Key Lessons',
         blocks: [
-          { type: 'heading', text: '07 — Key Lessons' },
+          { type: 'heading', text: '07 - Key Lessons' },
           { type: 'heading', text: 'Lesson 1: Cold starts are measurable.' },
           { type: 'paragraph', text: 'CloudWatch Logs showed the first invocation took 964ms (500ms init + 462ms execution). The second invocation took 453ms. For latency-sensitive applications, Provisioned Concurrency is required.' },
           { type: 'heading', text: 'Lesson 2: S3 event payloads are complex.' },
@@ -781,7 +781,7 @@ export const projects: Project[] = [
         id: 'what-id-do-differently',
         title: 'What I\'d Do Differently',
         blocks: [
-          { type: 'heading', text: '08 — What I\'d Do Differently' },
+          { type: 'heading', text: '08 - What I\'d Do Differently' },
           { type: 'paragraph', text: 'Use SQS as a buffer. If a massive number of files are uploaded simultaneously, Lambda could throttle. Placing an SQS queue between S3 and Lambda would buffer the requests and process them reliably.' },
           { type: 'paragraph', text: 'Increase memory for larger files. 128MB of RAM is fine for text files, but hashing a 1GB image would cause an OOM crash.' }
         ]
@@ -790,7 +790,7 @@ export const projects: Project[] = [
         id: 'outcome',
         title: 'Outcome',
         blocks: [
-          { type: 'heading', text: '09 — Outcome' },
+          { type: 'heading', text: '09 - Outcome' },
           { type: 'paragraph', text: 'Built a fully serverless, event-driven pipeline with strict least-privilege IAM and full observability. The project demonstrates the ability to connect multiple AWS services via triggers and API calls without managing any servers. Cost: $0.00.' }
         ]
       },
@@ -798,7 +798,7 @@ export const projects: Project[] = [
         id: 'repository',
         title: 'Repository',
         blocks: [
-          { type: 'heading', text: '10 — Repository' },
+          { type: 'heading', text: '10 - Repository' },
           { type: 'paragraph', text: 'The full project is in the 05-lambda-s3-iam/ folder of the aws-cloud-labs repository.' },
           { type: 'paragraph', text: 'github.com/Linathimqalo/aws-cloud-labs' }
         ]
@@ -819,7 +819,7 @@ export const projects: Project[] = [
         id: 'architecture',
         title: 'Architecture',
         blocks: [
-          { type: 'heading', text: '01 — Architecture' },
+          { type: 'heading', text: '01 - Architecture' },
           { type: 'paragraph', text: 'VPC: 10.0.0.0/16 in eu-north-1.' },
           { type: 'paragraph', text: 'Public Subnets: 2 subnets (one per AZ) with route to Internet Gateway.' },
           { type: 'paragraph', text: 'Private App Subnets: 2 subnets (one per AZ) with route to S3 Gateway Endpoint.' },
@@ -831,7 +831,7 @@ export const projects: Project[] = [
         id: 'security-design',
         title: 'Security Design Decisions',
         blocks: [
-          { type: 'heading', text: '02 — Security Design Decisions' },
+          { type: 'heading', text: '02 - Security Design Decisions' },
           { type: 'heading', text: 'Decision 1: No NAT Gateway' },
           { type: 'paragraph', text: 'A NAT Gateway costs ~$32/month. By using an S3 Gateway Endpoint, the private subnets can still access S3 (where our logs and assets live) without a NAT. This saves money and reduces the attack surface.' },
           { type: 'heading', text: 'Decision 2: Multi-AZ' },
@@ -844,7 +844,7 @@ export const projects: Project[] = [
         id: 'misconfiguration-drill',
         title: 'The Misconfiguration Drill',
         blocks: [
-          { type: 'heading', text: '03 — The Misconfiguration Drill' },
+          { type: 'heading', text: '03 - The Misconfiguration Drill' },
           { type: 'callout', label: 'Note', text: 'This project did not include a break/fix drill, but laid the foundation for the drills in Project 6.' }
         ]
       },
@@ -852,7 +852,7 @@ export const projects: Project[] = [
         id: 'detection-engineering',
         title: 'Detection Engineering',
         blocks: [
-          { type: 'heading', text: '04 — Detection Engineering' },
+          { type: 'heading', text: '04 - Detection Engineering' },
           { type: 'paragraph', text: 'Enabled VPC Flow Logs to CloudWatch. This captures IP traffic going to and from network interfaces in the VPC, which is critical for incident response (e.g., identifying which IP address was scanning the subnet).' }
         ]
       },
@@ -860,7 +860,7 @@ export const projects: Project[] = [
         id: 'remediation',
         title: 'Remediation',
         blocks: [
-          { type: 'heading', text: '05 — Remediation' },
+          { type: 'heading', text: '05 - Remediation' },
           { type: 'paragraph', text: 'N/A (Foundation project).' }
         ]
       },
@@ -868,7 +868,7 @@ export const projects: Project[] = [
         id: 'verification',
         title: 'Verification',
         blocks: [
-          { type: 'heading', text: '06 — Verification' },
+          { type: 'heading', text: '06 - Verification' },
           { type: 'paragraph', text: 'Confirmed 6 subnets across 2 AZs.' },
           { type: 'paragraph', text: 'Verified public route tables pointed to IGW.' },
           { type: 'paragraph', text: 'Verified private route tables lacked an IGW route.' },
@@ -879,7 +879,7 @@ export const projects: Project[] = [
         id: 'key-lessons',
         title: 'Key Lessons',
         blocks: [
-          { type: 'heading', text: '07 — Key Lessons' },
+          { type: 'heading', text: '07 - Key Lessons' },
           { type: 'heading', text: 'Lesson 1: Subnet naming is cosmetic.' },
           { type: 'paragraph', text: 'A subnet is only "public" if it has a route to a IGW. You can name a subnet "public" but if it has no route, it is private.' },
           { type: 'heading', text: 'Lesson 2: Gateway Endpoints are free.' },
@@ -890,7 +890,7 @@ export const projects: Project[] = [
         id: 'what-id-do-differently',
         title: 'What I\'d Do Differently',
         blocks: [
-          { type: 'heading', text: '08 — What I\'d Do Differently' },
+          { type: 'heading', text: '08 - What I\'d Do Differently' },
           { type: 'paragraph', text: 'Add VPC Endpoints for other services (SSM, Secrets Manager, ECR) to eliminate the need for any internet access in the private subnets.' }
         ]
       },
@@ -898,7 +898,7 @@ export const projects: Project[] = [
         id: 'outcome',
         title: 'Outcome',
         blocks: [
-          { type: 'heading', text: '09 — Outcome' },
+          { type: 'heading', text: '09 - Outcome' },
           { type: 'paragraph', text: 'A highly available, secure VPC foundation that supports all subsequent AWS projects. Cost: $0.00.' }
         ]
       },
@@ -906,7 +906,7 @@ export const projects: Project[] = [
         id: 'repository',
         title: 'Repository',
         blocks: [
-          { type: 'heading', text: '10 — Repository' },
+          { type: 'heading', text: '10 - Repository' },
           { type: 'paragraph', text: 'The full project is in the 01-vpc-three-tier/ folder of the aws-cloud-labs repository.' },
           { type: 'paragraph', text: 'github.com/Linathimqalo/aws-cloud-labs' }
         ]
@@ -927,7 +927,7 @@ export const projects: Project[] = [
         id: 'architecture',
         title: 'Architecture',
         blocks: [
-          { type: 'heading', text: '01 — Architecture' },
+          { type: 'heading', text: '01 - Architecture' },
           { type: 'paragraph', text: 'Analyzer 1: External Access Analyzer (detects resources like S3 buckets or IAM roles shared outside the account).' },
           { type: 'paragraph', text: 'Analyzer 2: Unused Access Analyzer (detects IAM roles/users that haven\'t been used in 90 days).' },
           { type: 'paragraph', text: 'Deployment: Terraform.' }
@@ -937,7 +937,7 @@ export const projects: Project[] = [
         id: 'security-design',
         title: 'Security Design Decisions',
         blocks: [
-          { type: 'heading', text: '02 — Security Design Decisions' },
+          { type: 'heading', text: '02 - Security Design Decisions' },
           { type: 'heading', text: 'Decision 1: Account-Level over Organization-Level' },
           { type: 'paragraph', text: 'The analyzers were deployed at the Account level (type = "ACCOUNT"). An Organization-level analyzer requires AWS Organizations, which is unnecessary for a single-account lab.' },
           { type: 'heading', text: 'Decision 2: 90-Day Window for Unused Access' },
@@ -948,7 +948,7 @@ export const projects: Project[] = [
         id: 'misconfiguration-drill',
         title: 'The Misconfiguration Drill',
         blocks: [
-          { type: 'heading', text: '03 — The Misconfiguration Drill' },
+          { type: 'heading', text: '03 - The Misconfiguration Drill' },
           { type: 'callout', label: 'Note', text: 'This was a simple deployment, but the "drill" is waiting for the first scan.' },
           { type: 'heading', text: 'Observation 1: The "Check Back Later" State' },
           { type: 'paragraph', text: 'After deployment, the AWS console did not immediately show findings. It displayed "Check back later to view the summary."' },
@@ -960,7 +960,7 @@ export const projects: Project[] = [
         id: 'detection-engineering',
         title: 'Detection Engineering',
         blocks: [
-          { type: 'heading', text: '04 — Detection Engineering' },
+          { type: 'heading', text: '04 - Detection Engineering' },
           { type: 'paragraph', text: 'The analyzers are the detection mechanism. When a developer accidentally makes an S3 bucket public, the External Access Analyzer immediately flags it. When a contractor leaves the company and their IAM key is left active but unused, the Unused Access Analyzer flags it.' }
         ]
       },
@@ -968,7 +968,7 @@ export const projects: Project[] = [
         id: 'remediation',
         title: 'Remediation',
         blocks: [
-          { type: 'heading', text: '05 — Remediation' },
+          { type: 'heading', text: '05 - Remediation' },
           { type: 'paragraph', text: 'When findings appear, the standard remediation path is:' },
           { type: 'list', items: ['Identify the resource via the ARN in the finding.', 'Update the bucket policy or IAM role to remove the public access.', 'Archive the finding in the console.'] }
         ]
@@ -977,7 +977,7 @@ export const projects: Project[] = [
         id: 'verification',
         title: 'Verification',
         blocks: [
-          { type: 'heading', text: '06 — Verification' },
+          { type: 'heading', text: '06 - Verification' },
           { type: 'paragraph', text: 'Deployed 2 analyzers via Terraform in 10 seconds.' },
           { type: 'paragraph', text: 'Verified both analyzers were active in the AWS Console.' },
           { type: 'paragraph', text: 'Confirmed the 90-day configuration was applied to the unused analyzer.' }
@@ -987,7 +987,7 @@ export const projects: Project[] = [
         id: 'key-lessons',
         title: 'Key Lessons',
         blocks: [
-          { type: 'heading', text: '07 — Key Lessons' },
+          { type: 'heading', text: '07 - Key Lessons' },
           { type: 'heading', text: 'Lesson 1: Access Analyzer is free.' },
           { type: 'paragraph', text: 'Unlike most AWS security tools, both the External and Unused Access analyzers are completely free. There is no excuse not to enable them in every account.' },
           { type: 'heading', text: 'Lesson 2: CloudTrail is the underlying engine.' },
@@ -998,7 +998,7 @@ export const projects: Project[] = [
         id: 'what-id-do-differently',
         title: 'What I\'d Do Differently',
         blocks: [
-          { type: 'heading', text: '08 — What I\'d Do Differently' },
+          { type: 'heading', text: '08 - What I\'d Do Differently' },
           { type: 'paragraph', text: 'Enable Organization-level Analyzer if I were managing multiple AWS accounts.' },
           { type: 'paragraph', text: 'Integrate with Security Hub to aggregate Access Analyzer findings alongside other security alerts.' }
         ]
@@ -1007,7 +1007,7 @@ export const projects: Project[] = [
         id: 'outcome',
         title: 'Outcome',
         blocks: [
-          { type: 'heading', text: '09 — Outcome' },
+          { type: 'heading', text: '09 - Outcome' },
           { type: 'paragraph', text: 'A foundational security control that continuously enforces least privilege. It replaces manual IAM reviews with automated, API-driven compliance. Cost: $0.00.' }
         ]
       },
@@ -1015,7 +1015,7 @@ export const projects: Project[] = [
         id: 'repository',
         title: 'Repository',
         blocks: [
-          { type: 'heading', text: '10 — Repository' },
+          { type: 'heading', text: '10 - Repository' },
           { type: 'paragraph', text: 'The full project is in the 04-iam-access-analyzer/ folder of the aws-cloud-labs repository.' },
           { type: 'paragraph', text: 'github.com/Linathimqalo/aws-cloud-labs' }
         ]
@@ -1036,7 +1036,7 @@ export const projects: Project[] = [
         id: 'architecture',
         title: 'Architecture',
         blocks: [
-          { type: 'heading', text: '01 — Architecture' },
+          { type: 'heading', text: '01 - Architecture' },
           { type: 'paragraph', text: 'Main Bucket: Stores data, encrypted with AWS KMS (SSE-KMS).' },
           { type: 'paragraph', text: 'Logging Bucket: Stores access logs for the main bucket.' },
           { type: 'paragraph', text: 'KMS Key: Customer-managed key with annual rotation.' },
@@ -1047,7 +1047,7 @@ export const projects: Project[] = [
         id: 'security-design',
         title: 'Security Design Decisions',
         blocks: [
-          { type: 'heading', text: '02 — Security Design Decisions' },
+          { type: 'heading', text: '02 - Security Design Decisions' },
           { type: 'heading', text: 'Decision 1: Customer-Managed KMS Key' },
           { type: 'paragraph', text: 'Instead of using the default AWS-managed key, we provisioned a Customer-Managed Key (CMK). This gives us control over the key policy, allows for annual key rotation, and provides a clear audit trail in CloudTrail of who used the key and when.' },
           { type: 'heading', text: 'Decision 2: Explicit Deny for Non-TLS' },
@@ -1060,7 +1060,7 @@ export const projects: Project[] = [
         id: 'misconfiguration-drill',
         title: 'The Misconfiguration Drill',
         blocks: [
-          { type: 'heading', text: '03 — The Misconfiguration Drill' },
+          { type: 'heading', text: '03 - The Misconfiguration Drill' },
           { type: 'callout', label: 'Note', text: 'The drill here was navigating IAM and CLI behavior.' },
           { type: 'heading', text: 'Break 1: The "AccessDenied" on Upload' },
           { type: 'paragraph', text: 'After applying the bucket policy, uploading a test file via the AWS CLI failed with AccessDenied.' },
@@ -1072,7 +1072,7 @@ export const projects: Project[] = [
         id: 'detection-engineering',
         title: 'Detection Engineering',
         blocks: [
-          { type: 'heading', text: '04 — Detection Engineering' },
+          { type: 'heading', text: '04 - Detection Engineering' },
           { type: 'paragraph', text: 'Access logging is enabled. Every GET or PUT request is logged to the separate logging bucket, providing a full audit trail for incident response.' }
         ]
       },
@@ -1080,7 +1080,7 @@ export const projects: Project[] = [
         id: 'remediation',
         title: 'Remediation',
         blocks: [
-          { type: 'heading', text: '05 — Remediation' },
+          { type: 'heading', text: '05 - Remediation' },
           { type: 'paragraph', text: 'If a data leak is suspected:' },
           { type: 'list', items: ['Check the logging bucket for unauthorized GET requests.', 'Rotate the KMS key (if necessary).', 'Verify Block Public Access is still enabled.'] }
         ]
@@ -1089,7 +1089,7 @@ export const projects: Project[] = [
         id: 'verification',
         title: 'Verification',
         blocks: [
-          { type: 'heading', text: '06 — Verification' },
+          { type: 'heading', text: '06 - Verification' },
           { type: 'paragraph', text: 'Confirmed Block Public Access was enabled.' },
           { type: 'paragraph', text: 'Confirmed KMS encryption was active on uploaded objects.' },
           { type: 'paragraph', text: 'Confirmed the deny policy blocked an unencrypted upload.' },
@@ -1100,7 +1100,7 @@ export const projects: Project[] = [
         id: 'key-lessons',
         title: 'Key Lessons',
         blocks: [
-          { type: 'heading', text: '07 — Key Lessons' },
+          { type: 'heading', text: '07 - Key Lessons' },
           { type: 'heading', text: 'Lesson 1: Bucket policies are evaluated before IAM policies.' },
           { type: 'paragraph', text: 'An explicit Deny in a bucket policy overrides an Allow in an IAM policy. This is why the bucket policy is the strongest control for preventing data exposure.' },
           { type: 'heading', text: 'Lesson 2: CLI behavior varies.' },
@@ -1111,7 +1111,7 @@ export const projects: Project[] = [
         id: 'what-id-do-differently',
         title: 'What I\'d Do Differently',
         blocks: [
-          { type: 'heading', text: '08 — What I\'d Do Differently' },
+          { type: 'heading', text: '08 - What I\'d Do Differently' },
           { type: 'paragraph', text: 'Use S3 Object Lock. For compliance reasons, enabling Object Lock prevents even the root user from deleting files for a set period (WORM model).' }
         ]
       },
@@ -1119,7 +1119,7 @@ export const projects: Project[] = [
         id: 'outcome',
         title: 'Outcome',
         blocks: [
-          { type: 'heading', text: '09 — Outcome' },
+          { type: 'heading', text: '09 - Outcome' },
           { type: 'paragraph', text: 'A bulletproof S3 bucket configuration that prevents public exposure and enforces encryption at rest and in transit. Cost: <$0.50.' }
         ]
       },
@@ -1127,7 +1127,7 @@ export const projects: Project[] = [
         id: 'repository',
         title: 'Repository',
         blocks: [
-          { type: 'heading', text: '10 — Repository' },
+          { type: 'heading', text: '10 - Repository' },
           { type: 'paragraph', text: 'The full project is in the 02-s3-secure-bucket/ folder of the aws-cloud-labs repository.' },
           { type: 'paragraph', text: 'github.com/Linathimqalo/aws-cloud-labs' }
         ]

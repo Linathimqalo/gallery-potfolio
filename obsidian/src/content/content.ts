@@ -97,7 +97,7 @@ export const content = {
     socials: [{ label: "LinkedIn", href: "https://linkedin.com/in/linathi-mqalo-8ab653194" }, { label: "GitHub", href: "https://github.com/Linathimqalo" }],
     footer: "© 2026 Linathi Mqalo · Built with restraint",
   },
-  controls: { light: "Switch to light theme", dark: "Switch to dark theme", openMenu: "Open navigation", closeMenu: "Close navigation", editionPending: "Obsidian edition — coming next", skip: "Skip to content" },
+  controls: { light: "Switch to light theme", dark: "Switch to dark theme", openMenu: "Open navigation", closeMenu: "Close navigation", editionPending: "Obsidian edition - coming next", skip: "Skip to content" },
 } as const;
 
 export type PortfolioContent = typeof content;

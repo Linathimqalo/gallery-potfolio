@@ -104,7 +104,7 @@ function Gallery() {
       <section className="gallery-rooms" aria-label="Choose a portfolio" ref={roomList} onPointerLeave={deactivateRoom}>
         {rooms.map((room) => (
           <Button key={room.id} asChild variant="room" size="room">
-            <a href={room.href} className={`room-${room.id}${selectedRoom === room.id ? " room-selected" : ""}`} aria-label={`${room.name} — ${room.subtitle}`} onClick={(event) => navigateRoom(event, room.id)} data-room={room.id} onPointerEnter={(event) => activateRoom(event, room.id)} onPointerMove={moveAtmosphere} onPointerLeave={resetAtmosphere}>
+            <a href={room.href} className={`room-${room.id}${selectedRoom === room.id ? " room-selected" : ""}`} aria-label={`${room.name} - ${room.subtitle}`} onClick={(event) => navigateRoom(event, room.id)} data-room={room.id} onPointerEnter={(event) => activateRoom(event, room.id)} onPointerMove={moveAtmosphere} onPointerLeave={resetAtmosphere}>
               <div className="room-atmosphere" aria-hidden="true">
                 {room.id === "obsidian" && <><div className="aurora"><svg viewBox="0 0 400 800" preserveAspectRatio="none">{Array.from({ length: 18 }, (_, i) => <path key={i} d={`M ${-160 + i * 15} -40 C ${380 + i * 7} 150, ${-180 + i * 12} 320, ${210 + i * 14} 490 S ${70 + i * 10} 730, ${390 + i * 10} 850`} />)}</svg></div><div className="cursor-light" /></>}
                 {room.id === "substrate" && <div className="particle-field">{Array.from({ length: 36 }, (_, i) => <i key={i} />)}</div>}

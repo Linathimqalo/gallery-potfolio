@@ -74,10 +74,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "ATLAS — Linathi Mqalo" },
+      { title: "ATLAS - Linathi Mqalo" },
       { name: "description", content: "The practice and selected work of Linathi Mqalo, Cloud Security Engineer." },
       { name: "author", content: "Linathi Mqalo" },
-      { property: "og:title", content: "ATLAS — Linathi Mqalo" },
+      { property: "og:title", content: "ATLAS - Linathi Mqalo" },
       { property: "og:description", content: "A journal of cloud, infrastructure, security and systems." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

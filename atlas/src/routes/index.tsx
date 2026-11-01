@@ -9,9 +9,9 @@ const pageIds = ['hero', 'about', 'skills', 'experience', 'projects', 'contact']
 
 export const Route = createFileRoute('/')({
   head: () => ({ meta: [
-    { title: 'ATLAS — Linathi Mqalo | Cloud Security Engineer' },
+    { title: 'ATLAS - Linathi Mqalo | Cloud Security Engineer' },
     { name: 'description', content: 'The practice, technical index and selected work of Linathi Mqalo. Building and securing cloud infrastructure across AWS and Azure.' },
-    { property: 'og:title', content: 'ATLAS — Linathi Mqalo' },
+    { property: 'og:title', content: 'ATLAS - Linathi Mqalo' },
     { property: 'og:description', content: 'A six-page technical journal of cloud, infrastructure, security and systems.' },
     { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary_large_image' },
@@ -20,7 +20,7 @@ export const Route = createFileRoute('/')({
 });
 
 function PageHeader({ number, label, title }: { number: string; label: string; title: string }) {
-  return <header className="page-header"><p className="mono section-number">[ {number} — {label} ]</p><h2>{title}</h2><hr className="rule" /></header>;
+  return <header className="page-header"><p className="mono section-number">[ {number} - {label} ]</p><h2>{title}</h2><hr className="rule" /></header>;
 }
 
 function Atlas() {

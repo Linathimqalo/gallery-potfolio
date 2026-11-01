@@ -8,9 +8,9 @@ import { portfolio } from '@/data/portfolio';
 
 export const Route = createFileRoute('/')({
   head: () => ({ meta: [
-    { title: 'SUBSTRATE — Linathi Mqalo | Cloud Security Engineer' },
-    { name: 'description', content: 'Linathi Mqalo — Cloud, Infrastructure, Security, Systems. Explore cloud engineering projects, security research, and 5+ years of infrastructure experience.' },
-    { property: 'og:title', content: 'SUBSTRATE — Linathi Mqalo' },
+    { title: 'SUBSTRATE - Linathi Mqalo | Cloud Security Engineer' },
+    { name: 'description', content: 'Linathi Mqalo - Cloud, Infrastructure, Security, Systems. Explore cloud engineering projects, security research, and 5+ years of infrastructure experience.' },
+    { property: 'og:title', content: 'SUBSTRATE - Linathi Mqalo' },
     { property: 'og:description', content: 'Building and securing cloud infrastructure across AWS and Azure. Selected work and experience by Linathi Mqalo.' },
     { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary_large_image' },
@@ -49,7 +49,7 @@ function Index() {
       </section>
       <section id="skills" className="section skills-section">
         <Reveal as="h2" className="meta section-label">02 / Technical Skills</Reveal>
-        {portfolio.skills.map(s => <div className="skills-group" key={s.name}><Reveal as="h3">{s.name}</Reveal>{' — '}<Reveal>{s.skills}</Reveal></div>)}
+        {portfolio.skills.map(s => <div className="skills-group" key={s.name}><Reveal as="h3">{s.name}</Reveal>{' - '}<Reveal>{s.skills}</Reveal></div>)}
       </section>
       <section id="experience" className="section experience-section">
         <Reveal as="h2" className="meta section-label">03 / Professional Experience</Reveal>

@@ -10,7 +10,7 @@ Do not change the four rooms themselves. Do not change their
 existing colour systems, typography, or content. Only change the
 shell behaviour.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-THE SHELL — WHAT IT IS
+THE SHELL - WHAT IT IS
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 The shell is everything that is NOT a room:
 - The page background (behind everything)
@@ -22,7 +22,7 @@ The shell is everything that is NOT a room:
 - The small ambient space around the rooms
 All of these elements respond to hover state.
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-HOVER STATES — PER ROOM
+HOVER STATES - PER ROOM
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 When the user hovers any room, transition the shell to that room's
 palette over 500ms ease-in-out. Every shell element transitions
@@ -72,7 +72,7 @@ THE TRANSITION
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 - Duration: 500ms for background and text colours
 - Duration: 600ms for atmospheric overlays (paper grain, glows)
-- Easing: cubic-bezier(0.4, 0, 0.2, 1) — calm, not bouncy
+- Easing: cubic-bezier(0.4, 0, 0.2, 1) - calm, not bouncy
 - All shell elements transition on the same timeline. Nothing
   transitions before or after the others.
 - When moving between rooms (e.g., from Atlas to Obsidian), the
@@ -141,7 +141,7 @@ Mobile (375x812):
 
 ## Development
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Prefer working locally? You need Node.js and npm - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 ```sh
 git clone <this-repository-url>
