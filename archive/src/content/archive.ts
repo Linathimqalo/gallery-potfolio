@@ -297,20 +297,20 @@ export const projects: Project[] = [
     title: 'Comparative Cloud Honeypot Analysis',
     category: ['Security', 'Cloud', 'Research'],
     date: '2026-10-10',
-    tools: ['T-Pot', 'Docker', 'ELK Stack', 'GCP', 'Azure', 'Security'],
-    tags: ['Honeypot', 'Threat Intelligence', 'Docker', 'Elasticsearch', 'Multi-Cloud'],
-    summary: 'Enterprise-grade honeypot system for threat intelligence and attack pattern analysis comparing GCP vs Azure deployments.',
-    executiveSummary: 'This project documents the deployment of T-Pot multi-honeypot systems across both Google Cloud Platform and Microsoft Azure. The goal was to build comparative threat intelligence collection platforms to analyze attack patterns across different cloud providers. The architecture exposes multiple vulnerable Docker containers (SSH, SMB, RDP, HTTP) to the internet while strictly isolating the administrative dashboard and SSH access. The deployment successfully captured thousands of brute-force and exploit attempts, providing raw data for comparative threat intelligence analysis between the two cloud environments.',
+    tools: ['T-Pot', 'Docker', 'ELK Stack', 'GCP', 'Azure', 'AWS', 'Suricata', 'Cowrie', 'Dionaea', 'Sentrypeer'],
+    tags: ['Honeypot', 'Threat Intelligence', 'Docker', 'Elasticsearch', 'Multi-Cloud', 'CVE Analysis'],
+    summary: 'Deploying identical T-Pot honeypot systems across GCP, Azure, and AWS to analyze attack patterns and cost efficiency across the three major cloud providers.',
+    executiveSummary: 'This project documents the deployment of T-Pot multi-honeypot systems across Google Cloud Platform, Microsoft Azure, and Amazon Web Services. The goal was to build comparative threat intelligence collection platforms to analyze attack patterns, volume, and operational cost across different cloud providers. All three instances exposed 40+ vulnerable Docker containers (SSH, SMB, RDP, HTTP, SIP) to the internet while isolating the administrative dashboards. Over 14-day (GCP/Azure) and 17-day (AWS) collection windows, the honeypots captured over 1.1 million combined attacks, providing raw data for a comprehensive multi-cloud threat analysis.',
     sections: [
       {
         id: 'architecture',
         title: 'Architecture',
         blocks: [
           { type: 'heading', text: '01 — Architecture' },
-          { type: 'paragraph', text: 'Compute: Multiple VM instances across GCP and Azure running Ubuntu.' },
+          { type: 'paragraph', text: 'Compute: e2-standard-2 (GCP), Standard D2s_v3 (Azure), m7i-flex.large (AWS). All running Ubuntu 24.04 with 8GB RAM.' },
           { type: 'paragraph', text: 'Containers: 41 Docker containers managed by the T-Pot framework per instance.' },
-          { type: 'paragraph', text: 'Storage: EBS volumes and Azure disks for logs and Elasticsearch indices.' },
-          { type: 'paragraph', text: 'Access: Administrative access (Kibana, SSH) restricted via Security Groups and Network Security Groups to trusted IPs.' }
+          { type: 'paragraph', text: 'Storage: Cloud-native persistent disks for logs and Elasticsearch indices.' },
+          { type: 'paragraph', text: 'Access: Administrative access (Kibana, SSH) restricted via Security Groups and Network Security Groups to a single trusted IP.' }
         ]
       },
       {
@@ -318,48 +318,65 @@ export const projects: Project[] = [
         title: 'Comparative Analysis',
         blocks: [
           { type: 'heading', text: '02 — Comparative Analysis' },
-          { type: 'paragraph', text: 'GCP Deployment: Google Cloud Compute Engine with Cloud Armor for DDoS protection.' },
-          { type: 'paragraph', text: 'Azure Deployment: Azure Virtual Machines with Azure Firewall integration.' },
-          { type: 'paragraph', text: 'Comparison Metrics: Attack volume, geographic distribution, attack types, response times, and false positive rates across both platforms.' }
+          { type: 'table', headers: ['Cloud', 'Instance Type', 'Cost/Day', 'Total Cost', 'Uptime', 'Key Stability Issue'], rows: [
+            ['GCP', 'e2-standard-2', '~$1.78', '~$24.92 (14d)', '14 Days', 'Frequent Kibana slowdowns, daily restarts required.'],
+            ['Azure', 'Standard D2s_v3', '~$2.67', '~$37.38 (14d)', '14 Days', 'HTTP 504/502 errors; required VM reboots.'],
+            ['AWS', 'm7i-flex.large', '~$2.35', '$39.94 (17d)', '17 Days', 'OOM killer terminating Elasticsearch; fixed with 8GB swap.']
+          ]}
+        ]
+      },
+      {
+        id: 'attack-volume',
+        title: 'Attack Volume & Threat Intelligence',
+        blocks: [
+          { type: 'heading', text: '03 — Attack Volume & Threat Intelligence' },
+          { type: 'table', headers: ['Cloud', 'Total Attacks', 'Top Source Country', 'Top Targeted Port', 'Top Honeypot'], rows: [
+            ['GCP', '285,000+ (14d)', 'United States', '5060, 22, 443', 'Honeytrap (96k)'],
+            ['Azure', '156,000+ (14d)', 'United States', '22, 6379, 1080', 'Honeytrap (73k)'],
+            ['AWS', '662,000+ (17d)', 'Germany', '5060, 3389, 25', 'Sentrypeer (235k)']
+          ]},
+          { type: 'heading', text: 'Top CVEs Attempted Across All Clouds' },
+          { type: 'list', items: ['GCP: CVE-2002-0013, CVE-2019-11500.', 'Azure: CVE-2002-0013, CVE-2023-46604.', 'AWS: CVE-2001-0540 (67k attempts), CAN-2001-0540 (56k).'] }
         ]
       },
       {
         id: 'detection-engineering',
         title: 'Detection Engineering',
         blocks: [
-          { type: 'heading', text: '03 — Detection Engineering' },
-          { type: 'paragraph', text: 'The T-Pot platform provides comprehensive detection capabilities:' },
-          { type: 'paragraph', text: 'Suricata: Inspects network traffic for known exploit signatures.' },
-          { type: 'paragraph', text: 'Cowrie: Emulates an SSH server, logging every username and password attempted.' },
-          { type: 'paragraph', text: 'Dionaea: Emulates Windows SMB/MSSQL vulnerabilities to capture malware payloads.' },
-          { type: 'paragraph', text: 'Detection Outcome: Captured 285,000+ attacks across both cloud providers, enabling comparative analysis of threat patterns and geographic distribution.' }
+          { type: 'heading', text: '04 — Detection Engineering' },
+          { type: 'paragraph', text: 'The T-Pot platform provides comprehensive detection capabilities across all three clouds:' },
+          { type: 'list', items: ['Suricata: Inspects network traffic for known exploit signatures (CVEs).', 'Cowrie: Emulates an SSH server, logging every username and password attempted.', 'Dionaea: Emulates Windows SMB/MSSQL vulnerabilities to capture malware payloads.', 'Sentrypeer: Captures SIP/VoIP scanning attempts (dominant on AWS).'] }
         ]
       },
       {
         id: 'key-lessons',
         title: 'Key Lessons',
         blocks: [
-          { type: 'heading', text: '04 — Key Lessons' },
-          { type: 'heading', text: 'Lesson 1: Cloud providers exhibit different attack patterns.' },
-          { type: 'paragraph', text: 'The geographic distribution and types of attacks varied significantly between GCP and Azure, suggesting different threat actor targeting preferences.' },
-          { type: 'heading', text: 'Lesson 2: Native cloud security tools integrate differently.' },
-          { type: 'paragraph', text: 'GCP Cloud Armor and Azure Firewall offer different capabilities and APIs, requiring platform-specific configurations for equivalent security postures.' }
+          { type: 'heading', text: '05 — Key Lessons' },
+          { type: 'heading', text: 'Lesson 1: Cloud provider IP blocks attract different attack volumes.' },
+          { type: 'paragraph', text: 'AWS captured 662,000 attacks in 17 days (~39k/day), while GCP captured 285,000 in 14 days (~20k/day) and Azure captured 156,000 (~11k/day). The specific IP block allocated by AWS was likely already in an active scanner list, resulting in higher volume.' },
+          { type: 'heading', text: 'Lesson 2: Operational stability is not equal across clouds.' },
+          { type: 'paragraph', text: 'GCP offered the most stable long-term performance with minimal intervention. Azure required reboots due to memory pressure. AWS required manual swap provisioning to prevent OOM crashes. The AWS instance consumed $39.94 for 17 days, making it the most expensive but also the highest-volume target.' },
+          { type: 'heading', text: 'Lesson 3: Geographic targeting varies by cloud.' },
+          { type: 'paragraph', text: 'US and China dominated GCP and Azure traffic. AWS saw a massive influx from Germany (Aiscyon B.V., IONOS SE) and The Netherlands, proving that regional threat actor preferences influence cloud attack patterns.' }
         ]
       },
       {
         id: 'outcome',
         title: 'Outcome',
         blocks: [
-          { type: 'heading', text: '05 — Outcome' },
-          { type: 'paragraph', text: 'Successfully deployed comparative honeypot infrastructure across two major cloud providers. Captured, parsed, and visualized real-world attack traffic, proving the ability to build complex, multi-container security infrastructure with strict network isolation and enabling comparative threat intelligence analysis.' }
+          { type: 'heading', text: '06 — Outcome' },
+          { type: 'paragraph', text: 'Successfully deployed comparative honeypot infrastructure across three major cloud providers, capturing over 1.1 million combined attacks. This project demonstrated the ability to build complex, multi-container security infrastructure across different cloud platforms, collect and analyze threat intelligence at scale, and evaluate cost-to-value ratios for cloud-based security operations.' }
         ]
       },
       {
         id: 'repository',
         title: 'Repository',
         blocks: [
-          { type: 'heading', text: '06 — Repository' },
-          { type: 'paragraph', text: 'The full project is in the cloud-honeypot-analysis repository.' },
+          { type: 'heading', text: '07 — Repository' },
+          { type: 'paragraph', text: 'The AWS deployment is in the 03-honeypot/ folder of the aws-cloud-labs repository.' },
+          { type: 'paragraph', text: 'github.com/Linathimqalo/aws-cloud-labs' },
+          { type: 'paragraph', text: 'The original GCP and Azure comparison is in the cloud-honeypot-analysis repository.' },
           { type: 'paragraph', text: 'github.com/Linathimqalo/cloud-honeypot-analysis' }
         ]
       }
