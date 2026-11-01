@@ -461,10 +461,10 @@ export const projects: Project[] = [
     title: 'Threat Detection Honeypot',
     category: ['Security', 'Cloud', 'Research'],
     date: '2026-10-17',
-    tools: ['AWS', 'EC2', 'Docker', 'T-Pot', 'Ubuntu', 'Security Groups'],
-    tags: ['Honeypot', 'Threat Intelligence', 'Security', 'Docker', 'Elasticsearch'],
-    summary: 'Deploying a multi-honeypot environment to capture, analyze, and visualize real-world cyber attacks in the cloud.',
-    executiveSummary: 'This project documents the deployment of a T-Pot multi-honeypot on AWS EC2. The goal was to build a live threat intelligence collection platform. The architecture exposes 40+ vulnerable Docker containers (SSH, SMB, RDP, HTTP) to the internet while strictly isolating the administrative dashboard and SSH access to a single trusted IP. The deployment required overcoming memory constraints by provisioning an 8GB swapfile to stabilize Elasticsearch and Kibana under heavy attack loads. The honeypot successfully captured thousands of brute-force and exploit attempts, providing raw data for threat intelligence analysis.',
+    tools: ['AWS', 'EC2', 'Docker', 'T-Pot', 'Ubuntu', 'Security Groups', 'Suricata', 'Cowrie', 'Dionaea', 'Sentrypeer'],
+    tags: ['Honeypot', 'Threat Intelligence', 'Security', 'Docker', 'Elasticsearch', 'CVE Analysis'],
+    summary: 'Deploying a multi-honeypot environment to capture, analyze, and visualize 662,000+ real-world cyber attacks over 17 days.',
+    executiveSummary: 'This project documents the deployment of a high-interaction T-Pot multi-honeypot on AWS EC2. The goal was to build a live threat intelligence collection platform. The architecture exposes 40+ vulnerable Docker containers (SSH, SMB, RDP, HTTP) to the internet while strictly isolating the administrative dashboard and SSH access to a single trusted IP. Over the 17-day deployment, the honeypot captured over 662,000 attacks, including SSH brute force, RDP exploitation, and SIP scanning. The project required overcoming memory constraints via swap provisioning and patching upstream Ansible playbooks to support the latest Ubuntu AMI.',
     sections: [
       {
         id: 'architecture',
@@ -487,7 +487,7 @@ export const projects: Project[] = [
           { type: 'heading', text: 'Decision 2: Minimal IAM Role' },
           { type: 'paragraph', text: 'The EC2 instance is assigned an IAM role with only AmazonSSMManagedInstanceCore. No S3 access, no Secrets Manager access, and no EC2 permissions are granted. If an attacker somehow breaks out of a Docker container and achieves host-level code execution, their AWS privileges are null.' },
           { type: 'heading', text: 'Decision 3: Swap Provisioning for Stability' },
-          { type: 'paragraph', text: 'T-Pot\'s 40+ containers (specifically Elasticsearch and Kibana) can easily exceed 8GB of RAM during a high-volume attack. Instead of upgrading the EC2 instance (which would increase cost), we provisioned an 8GB swapfile with vm.swappiness=10. This prioritizes RAM but allows the system to survive traffic spikes without OOM (Out Of Memory) killing the logging pipeline.' }
+          { type: 'paragraph', text: 'T-Pot\'s 41 containers (specifically Elasticsearch and Kibana) can easily exceed 8GB of RAM during a high-volume attack. Instead of upgrading the EC2 instance (which would increase cost), we provisioned an 8GB swapfile with vm.swappiness=10. This prioritizes RAM but allows the system to survive traffic spikes without OOM (Out Of Memory) killing the logging pipeline.' }
         ]
       },
       {
@@ -495,7 +495,6 @@ export const projects: Project[] = [
         title: 'The Misconfiguration Drill',
         blocks: [
           { type: 'heading', text: '03 — The Misconfiguration Drill' },
-          { type: 'callout', label: 'Note', text: 'The "drill" here was dealing with the harsh reality of public internet exposure.' },
           { type: 'heading', text: 'Break 1: The T-Pot OS Compatibility' },
           { type: 'paragraph', text: 'T-Pot\'s upstream installer requires Ubuntu 26.04, but the latest available AWS AMI is 24.04. The installer failed immediately with a version mismatch.' },
           { type: 'paragraph', text: 'Remediation: Patched the install.sh script and the Ansible playbook (tpot.yml) to accept the version string "24.04" instead of "26.04". The Docker containers ran perfectly without modification.' },
@@ -510,10 +509,9 @@ export const projects: Project[] = [
         blocks: [
           { type: 'heading', text: '04 — Detection Engineering' },
           { type: 'paragraph', text: 'The T-Pot platform inherently is the detection engineering tool.' },
-          { type: 'paragraph', text: 'Suricata: Inspects network traffic for known exploit signatures.' },
-          { type: 'paragraph', text: 'Cowrie: Emulates an SSH server, logging every username and password attempted.' },
-          { type: 'paragraph', text: 'Dionaea: Emulates Windows SMB/MSSQL vulnerabilities to capture malware payloads.' },
-          { type: 'paragraph', text: 'Detection Outcome: Captured 285,000+ attacks on GCP/Azure previously; on AWS, the honeypot captured immediate automated scanning within minutes of the public IP being assigned.' }
+          { type: 'list', items: ['Suricata: Inspects network traffic for known exploit signatures.', 'Cowrie: Emulates an SSH server, logging every username and password attempted.', 'Dionaea: Emulates Windows SMB/MSSQL vulnerabilities to capture malware payloads.'] },
+          { type: 'heading', text: 'Detection Outcome (17 Days)' },
+          { type: 'list', items: ['Total Attacks: 662,000+', 'Top Honeypots Triggered: Sentrypeer (235k), Honeytrap (226k), RDPHoneypot (71k).', 'Top Targeted Ports: 5060 (SIP), 3389 (RDP), 25 (SMTP).', 'Top Source Countries: Germany, The Netherlands, United States, Poland, Hong Kong.', 'Top Attacking ASNs: Aiscyon B.V. (113k), IONOS SE (88k).', 'Top CVEs Attempted: CVE-2001-0540 (67k), CAN-2001-0540 (56k).'] }
         ]
       },
       {
@@ -529,9 +527,7 @@ export const projects: Project[] = [
         title: 'Verification',
         blocks: [
           { type: 'heading', text: '06 — Verification' },
-          { type: 'paragraph', text: 'Confirmed 41 Docker containers running via docker ps | wc -l.' },
-          { type: 'paragraph', text: 'Verified Kibana dashboard was accessible at https://<ip>:64297 via the admin IP.' },
-          { type: 'paragraph', text: 'Validated that attack traffic was populating Elasticsearch indices in real-time.' }
+          { type: 'list', items: ['Confirmed 41 Docker containers running via docker ps | wc -l.', 'Verified Kibana dashboard was accessible at https://<ip>:64297 via the admin IP.', 'Validated that attack traffic was populating Elasticsearch indices in real-time.', 'Analyzed the multi-cloud comparison data (GCP, Azure, AWS).'] }
         ]
       },
       {
@@ -552,8 +548,7 @@ export const projects: Project[] = [
         title: 'What I\'d Do Differently',
         blocks: [
           { type: 'heading', text: '08 — What I\'d Do Differently' },
-          { type: 'paragraph', text: 'Use a managed logging pipeline. Instead of relying on local Elasticsearch, I would route the honeypot logs to CloudWatch or an external SIEM (like Splunk or Microsoft Sentinel) to decouple storage from compute.' },
-          { type: 'paragraph', text: 'Automate teardown. Honeypots are expensive to run 24/7. A scheduled Lambda function that destroys the CloudFormation/Terraform stack after 7 days would prevent bill shock.' }
+          { type: 'list', items: ['Use a managed logging pipeline. Instead of relying on local Elasticsearch, I would route the honeypot logs to CloudWatch or an external SIEM (like Splunk or Microsoft Sentinel) to decouple storage from compute.', 'Automate teardown. Honeypots are expensive to run 24/7. A scheduled Lambda function that destroys the CloudFormation/Terraform stack after 7 days would prevent bill shock.'] }
         ]
       },
       {
@@ -561,7 +556,7 @@ export const projects: Project[] = [
         title: 'Outcome',
         blocks: [
           { type: 'heading', text: '09 — Outcome' },
-          { type: 'paragraph', text: 'Successfully deployed a high-interaction honeypot on AWS. Captured, parsed, and visualized real-world attack traffic, proving the ability to build complex, multi-container security infrastructure with strict network isolation. Cost: ~$16 for 7 days of compute.' }
+          { type: 'paragraph', text: 'Successfully deployed a high-interaction honeypot on AWS. Captured, parsed, and visualized 662,000+ real-world attacks over 17 days, proving the ability to build complex, multi-container security infrastructure with strict network isolation. The total cost for the entire 17-day run was $39.94, well within the AWS credit budget. The infrastructure was destroyed via Terraform to prevent ongoing charges, with all logs and dashboards saved for analysis.' }
         ]
       },
       {
